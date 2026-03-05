@@ -1,0 +1,1129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Control Panel - Saint Laurent de Gaseke</title>
+    <link rel="stylesheet" href="main.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #001f3f 0%, #003366 50%, #004080 100%);
+            color: white;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+        }
+
+        .admin-wrapper {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            padding: 40px 20px;
+            background: linear-gradient(135deg, rgba(0,31,63,0.95), rgba(0,64,128,0.95));
+            border-bottom: 4px solid #00bfff;
+            border-radius: 15px;
+            margin-bottom: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 42px;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            color: #00bfff;
+        }
+
+        header p {
+            font-size: 16px;
+            opacity: 0.9;
+            color: #00e6ff;
+        }
+
+        .logo {
+            margin-bottom: 20px;
+        }
+
+        .home-btn {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 12px 25px;
+            background: linear-gradient(135deg, #00bfff 0%, #0099cc 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(0, 191, 255, 0.3);
+        }
+
+        .home-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 191, 255, 0.5);
+            background: linear-gradient(135deg, #00e6ff 0%, #00b3e6 100%);
+        }
+
+        .section-title {
+            font-size: 28px;
+            margin: 40px 0 25px 0;
+            color: #00bfff;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            border-bottom: 3px solid rgba(0, 191, 255, 0.3);
+            padding-bottom: 15px;
+        }
+
+        .section-title span {
+            font-size: 32px;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .dashboard-card {
+            background: linear-gradient(135deg, rgba(13, 95, 127, 0.6), rgba(10, 74, 99, 0.6));
+            border: 2px solid rgba(0, 191, 255, 0.3);
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            cursor: pointer;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .dashboard-card:hover {
+            transform: translateY(-8px);
+            border-color: #00bfff;
+            box-shadow: 0 15px 40px rgba(0, 191, 255, 0.3);
+            background: linear-gradient(135deg, rgba(13, 95, 127, 0.8), rgba(10, 74, 99, 0.8));
+        }
+
+        .card-icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+
+        .card-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #00e6ff;
+        }
+
+        .card-description {
+            font-size: 13px;
+            opacity: 0.8;
+            margin-bottom: 20px;
+            color: #bbb;
+        }
+
+        .card-stat {
+            font-size: 32px;
+            font-weight: 700;
+            color: #00bfff;
+            margin: 15px 0;
+        }
+
+        .card-stat-label {
+            font-size: 12px;
+            opacity: 0.7;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn-navigate {
+            display: inline-block;
+            background: linear-gradient(135deg, #00bfff, #0099cc);
+            color: white;
+            padding: 10px 25px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            text-decoration: none;
+            font-size: 14px;
+            margin-top: 10px;
+            box-shadow: 0 4px 12px rgba(0, 191, 255, 0.3);
+        }
+
+        .btn-navigate:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 18px rgba(0, 191, 255, 0.5);
+            background: linear-gradient(135deg, #00e6ff, #00b3e6);
+        }
+
+        /* Students Management Table */
+        .management-section {
+            background: linear-gradient(135deg, rgba(13, 95, 127, 0.4), rgba(10, 74, 99, 0.4));
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 40px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            border: 2px solid rgba(0, 191, 255, 0.2);
+        }
+
+        .management-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .management-header h2 {
+            color: #00bfff;
+            font-size: 24px;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary, .btn-secondary {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            font-size: 14px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #00bfff, #0099cc);
+            color: white;
+            box-shadow: 0 4px 12px rgba(0, 191, 255, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(0, 191, 255, 0.5);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            border: 2px solid #00bfff;
+            color: #00bfff;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(0, 191, 255, 0.1);
+        }
+
+        .table-container {
+            overflow-x: auto;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+
+        .admin-table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 800px;
+        }
+
+        .admin-table thead {
+            background: linear-gradient(135deg, #1a7f9a, #0f5a7a);
+        }
+
+        .admin-table th {
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+            color: white;
+            border-bottom: 2px solid rgba(0, 191, 255, 0.3);
+        }
+
+        .admin-table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid rgba(0, 191, 255, 0.1);
+            font-size: 14px;
+        }
+
+        .admin-table tbody tr:hover {
+            background: rgba(0, 191, 255, 0.05);
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .status-pending {
+            background: rgba(255, 193, 7, 0.2);
+            color: #ffc107;
+        }
+
+        .status-approved {
+            background: rgba(76, 175, 80, 0.2);
+            color: #4caf50;
+        }
+
+        .status-active {
+            background: rgba(0, 191, 255, 0.2);
+            color: #00bfff;
+        }
+
+        .action-buttons-table {
+            display: flex;
+            gap: 6px;
+        }
+
+        .btn-small {
+            padding: 6px 12px;
+            border: 1px solid #00bfff;
+            background: transparent;
+            color: #00bfff;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .btn-small:hover {
+            background: #00bfff;
+            color: #001f3f;
+        }
+
+        .quick-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .stat-box {
+            background: rgba(0, 191, 255, 0.1);
+            border: 1px solid rgba(0, 191, 255, 0.3);
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 28px;
+            font-weight: 700;
+            color: #00bfff;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            opacity: 0.7;
+            margin-top: 5px;
+            text-transform: uppercase;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.show {
+            display: flex;
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, #004080, #003366);
+            border: 2px solid #00bfff;
+            border-radius: 15px;
+            padding: 30px;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            /* make modal content scrollable when form is tall */
+            max-height: 80vh;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        /* small button to jump to bottom of modal (submit area) */
+        .scroll-bottom-btn {
+            position: absolute;
+            top: 18px;
+            right: 18px;
+            background: rgba(0, 191, 255, 0.12);
+            color: #00e6ff;
+            border: 1px solid rgba(0, 191, 255, 0.25);
+            padding: 6px 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 700;
+            backdrop-filter: blur(4px);
+        }
+        .scroll-bottom-btn:hover { background: rgba(0, 191, 255, 0.18); }
+
+        .modal-header {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #00bfff;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            font-size: 14px;
+            color: #00e6ff;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid rgba(0, 191, 255, 0.3);
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #00bfff;
+            box-shadow: 0 0 15px rgba(0, 191, 255, 0.3);
+        }
+
+        .form-group input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .image-upload-container {
+            border: 2px dashed rgba(0, 191, 255, 0.5);
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: rgba(0, 191, 255, 0.05);
+        }
+
+        .image-upload-container:hover {
+            border-color: #00bfff;
+            background: rgba(0, 191, 255, 0.1);
+        }
+
+        .image-upload-container input[type="file"] {
+            display: none;
+        }
+
+        .image-upload-text {
+            font-size: 14px;
+            color: #00e6ff;
+            margin-bottom: 10px;
+        }
+
+        .image-preview {
+            margin-top: 15px;
+            position: relative;
+        }
+
+        .image-preview img {
+            max-width: 100%;
+            max-height: 200px;
+            border-radius: 8px;
+            border: 2px solid rgba(0, 191, 255, 0.3);
+            display: none;
+        }
+
+        .image-preview img.show {
+            display: block;
+        }
+
+        .image-preview-label {
+            font-size: 12px;
+            color: #00e6ff;
+            margin-top: 8px;
+        }
+
+        .remove-image-btn {
+            background: rgba(255, 76, 76, 0.8);
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 5px;
+            font-size: 12px;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: all 0.3s;
+            display: none;
+        }
+
+        .remove-image-btn.show {
+            display: inline-block;
+        }
+
+        .remove-image-btn:hover {
+            background: rgba(255, 76, 76, 1);
+        }
+
+        .form-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .form-buttons button {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .form-buttons .btn-submit {
+            background: linear-gradient(135deg, #00bfff, #0099cc);
+            color: white;
+        }
+
+        .form-buttons .btn-cancel {
+            background: transparent;
+            border: 2px solid #666;
+            color: #aaa;
+        }
+
+        .form-buttons .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(0, 191, 255, 0.5);
+        }
+
+        .success-message {
+            background: rgba(76, 175, 80, 0.2);
+            border-left: 4px solid #4caf50;
+            color: #4caf50;
+            padding: 12px 15px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .management-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .action-buttons button {
+                width: 100%;
+            }
+
+            header h1 {
+                font-size: 28px;
+            }
+
+            .section-title {
+                font-size: 20px;
+            }
+
+            .admin-table {
+                min-width: 100%;
+            }
+        }
+
+        /* login overlay styles */
+        #loginOverlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+        }
+        .login-modal {
+            background: #004080;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            color: white;
+            width: 300px;
+        }
+        .login-modal h2 {
+            margin-bottom: 20px;
+            text-align: center;
+            color: #00bfff;
+        }
+        .login-modal .form-group {
+            margin-bottom: 15px;
+        }
+        .login-modal .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        .login-modal .form-group input {
+            width: 100%;
+            padding: 8px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        .login-modal .form-buttons {
+            text-align: center;
+        }
+        .login-modal .btn-submit {
+            background: #00bfff;
+            color: white;
+            padding: 8px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .login-modal .btn-submit:hover {
+            background: #0099cc;
+        }
+    </style>
+</head>
+<body>
+    <nav class="top-bar">
+        <a href="gseke.html" class="home-btn">🏠 Home</a>
+        <a href="admin.html" class="home-btn">⚙️ Admin</a>
+        <a href="admin-students.html" class="home-btn">➕ Add Student</a>
+        <a href="admin-notifications.html" class="home-btn">🔔 Notifications</a>
+    </nav>
+    <div class="admin-wrapper">
+        <!-- Header -->
+        <header>
+            <a href="gseke.html" class="home-btn">← Back to Home</a>
+            <h1>🎛️ Admin Control Panel</h1>
+            <img src="saint laurent enhanced.png" alt="logo" class="logo">
+            <p>Manage students, marks, and school operations</p>
+            <button class="theme-toggle" onclick="toggleTheme()" title="Toggle light/dark mode">🌗</button>
+        </header>
+
+        <!-- Quick Stats Dashboard -->
+        <div class="section-title">
+            <span>📊</span> Dashboard Overview
+        </div>
+        <div class="dashboard-grid">
+            <!-- Total Students Card -->
+            <div class="dashboard-card">
+                <div class="card-icon">👥</div>
+                <div class="card-title">Total Students</div>
+                <div class="card-description">Active enrolled students</div>
+                <div class="card-stat" id="totalStudents">0</div>
+                <div class="card-stat-label">Students</div>
+            </div>
+
+            <!-- Pending Verifications Card -->
+            <div class="dashboard-card">
+                <div class="card-icon">⏳</div>
+                <div class="card-title">Pending Verifications</div>
+                <div class="card-description">Awaiting approval profiles</div>
+                <div class="card-stat" id="pendingCount">0</div>
+                <div class="card-stat-label">Pending</div>
+            </div>
+
+            <!-- Approved Profiles Card -->
+            <div class="dashboard-card">
+                <div class="card-icon">✅</div>
+                <div class="card-title">Approved Profiles</div>
+                <div class="card-description">Verified students</div>
+                <div class="card-stat" id="approvedCount">0</div>
+                <div class="card-stat-label">Approved</div>
+            </div>
+
+            <!-- Active Classes Card -->
+            <div class="dashboard-card">
+                <div class="card-icon">📚</div>
+                <div class="card-title">Active Classes</div>
+                <div class="card-description">Running programs</div>
+                <div class="card-stat" id="classesCount">6</div>
+                <div class="card-stat-label">Classes</div>
+            </div>
+        </div>
+
+        <!-- Navigation Cards to Features -->
+        <div class="section-title">
+            <span>🔗</span> Quick Access
+        </div>
+        <div class="dashboard-grid">
+            <!-- View Students Button -->
+            <div class="dashboard-card">
+                <div class="card-icon">📋</div>
+                <div class="card-title">Student Profiles</div>
+                <div class="card-description">View all student information and details</div>
+                <a href="student-profiles.html" class="btn-navigate">View Profiles</a>
+            </div>
+
+            <!-- Manage Marks Button -->
+            <div class="dashboard-card">
+                <div class="card-icon">📝</div>
+                <div class="card-title">Manage Marks</div>
+                <div class="card-description">Input and track student grades</div>
+                <a href="admin-marks.html" class="btn-navigate">Manage Marks</a>
+            </div>
+
+            <!-- View Classes Button -->
+            <div class="dashboard-card">
+                <div class="card-icon">📚</div>
+                <div class="card-title">Classes Management</div>
+                <div class="card-description">Manage class rosters and enrollment</div>
+                <a href="student-classes.html" class="btn-navigate">View Classes</a>
+            </div>
+
+            <!-- Add New Student Button -->
+            <div class="dashboard-card">
+                <div class="card-icon">➕</div>
+                <div class="card-title">Add New Student</div>
+                <div class="card-description">Register new students to the system</div>
+                <button class="btn-navigate" onclick="openAddStudentModal()">Add Student</button>
+            </div>
+
+            <!-- Notifications Button -->
+            <div class="dashboard-card">
+                <div class="card-icon">🔔</div>
+                <div class="card-title">Application Notifications</div>
+                <div class="card-description">Review and approve student/job applications</div>
+                <a href="admin-notifications.html" class="btn-navigate">View Notifications</a>
+            </div>
+        </div>
+
+        <!-- Students Management Section -->
+        <div class="management-section">
+            <div class="management-header">
+                <h2>👨‍🎓 Manage All Students</h2>
+                <div class="action-buttons">
+                    <button class="btn-primary" onclick="openAddStudentModal()">➕ Add New Student</button>
+                    <button class="btn-secondary" onclick="exportStudents()">📥 Export List</button>
+                </div>
+            </div>
+
+            <!-- Quick Stats -->
+            <div class="quick-stats">
+                <div class="stat-box">
+                    <div class="stat-number" id="statsTotal">36</div>
+                    <div class="stat-label">Total Students</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number" id="statsPending">8</div>
+                    <div class="stat-label">Pending Approval</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number" id="statsApproved">22</div>
+                    <div class="stat-label">Approved</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number" id="statsActive">6</div>
+                    <div class="stat-label">Active Classes</div>
+                </div>
+            </div>
+
+            <!-- Students Table -->
+            <div class="table-container">
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Class</th>
+                            <th>Trade</th>
+                            <th>Email</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="studentTableBody">
+                        <!-- Populated by JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Success Message -->
+        <div class="success-message" id="successMessage">
+            ✓ Operation completed successfully!
+        </div>
+    </div>
+
+    <!-- Add Student Modal -->
+    <div class="modal" id="addStudentModal">
+        <div class="modal-content">
+            <div class="modal-header">➕ Add New Student</div>
+            <form onsubmit="addStudent(event)">
+                <div class="form-group">
+                    <label>Full Name *</label>
+                    <input type="text" id="studentName" placeholder="Enter full name" required>
+                </div>
+                <div class="form-group">
+                    <label>Email *</label>
+                    <input type="email" id="studentEmail" placeholder="Enter email address" required>
+                </div>
+                <div class="form-group">
+                    <label>Phone *</label>
+                    <input type="tel" id="studentPhone" placeholder="Enter phone number" required>
+                </div>
+                <div class="form-group">
+                    <label>Class *</label>
+                    <select id="studentClass" required>
+                        <option value="">Select Class</option>
+                        <option value="SOD-Y1-A">SOD Year 1 - A</option>
+                        <option value="SOD-Y2-B">SOD Year 2 - B</option>
+                        <option value="ETE-Y1-A">ETE Year 1 - A</option>
+                        <option value="BDC-Y1">BDC Year 1</option>
+                        <option value="ELT-Y1">ELT Year 1</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Trade *</label>
+                    <select id="studentTrade" required>
+                        <option value="">Select Trade</option>
+                        <option value="SOD">Software Development</option>
+                        <option value="ETE">Electrical & Electronics</option>
+                        <option value="BDC">Building & Construction</option>
+                        <option value="ELT">Electrical Installation</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Date of Birth *</label>
+                    <input type="date" id="studentDOB" required>
+                </div>
+                <div class="form-group">
+                    <label>Student Photo</label>
+                    <div class="image-upload-container" id="imageUploadContainer">
+                        <div class="image-upload-text">📸 Click to upload photo or drag and drop</div>
+                        <input type="file" id="studentPhoto" accept="image/*" onchange="previewImage(event)">
+                        <small style="color: #999;">Supports JPG, PNG, GIF (from computer or phone gallery)</small>
+                    </div>
+                    <div class="image-preview">
+                        <img id="photoPreview" alt="Photo preview">
+                        <button type="button" class="remove-image-btn" id="removePhotoBtn" onclick="removeImage()">✕ Remove Photo</button>
+                        <div class="image-preview-label" id="imageFileName"></div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Address</label>
+                    <textarea id="studentAddress" placeholder="Enter residential address" rows="3"></textarea>
+                </div>
+                <div class="form-buttons">
+                    <button type="submit" class="btn-submit">✓ Add Student</button>
+                    <button type="button" class="btn-cancel" onclick="closeAddStudentModal()">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Global variable to store image data
+        let currentImageData = null;
+
+        // simple admin login check (static credentials)
+        const ADMIN_USER = 'ontix_67';
+        const ADMIN_PASS = '198066';
+
+        function requireLogin() {
+            // create overlay form
+            const overlay = document.createElement('div');
+            overlay.id = 'loginOverlay';
+            overlay.innerHTML = `
+                <div class="login-modal">
+                    <h2>Admin Login</h2>
+                    <div class="form-group">
+                        <label>Username</label>
+                        <input type="text" id="loginUser">
+                    </div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" id="loginPass">
+                    </div>
+                    <div class="form-buttons">
+                        <button id="loginBtn" class="btn-submit">Login</button>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(overlay);
+
+            document.getElementById('loginBtn').addEventListener('click', () => {
+                const user = document.getElementById('loginUser').value;
+                const pass = document.getElementById('loginPass').value;
+                if (user !== ADMIN_USER || pass !== ADMIN_PASS) {
+                    alert('Invalid credentials');
+                    window.location.href = 'gseke.html';
+                } else {
+                    document.body.removeChild(overlay);
+                }
+            });
+        }
+        requireLogin();
+        
+     
+        let students = JSON.parse(localStorage.getItem('students')) || [
+            { id: 'SLG001', name: 'Jean-Pierre Nkusi', email: 'jean@example.com', phone: '+250726001', class: 'SOD-Y1-A', trade: 'SOD', status: 'Approved' },
+            { id: 'SLG002', name: 'irafashwa aime cesere', email: 'marie@example.com', phone: '+250726002', class: 'SOD-Y1-A', trade: 'SOD', status: 'Approved' },
+            { id: 'SLG003', name: 'kanaume benjamin', email: 'pierre@example.com', phone: '+250726003', class: 'SOD-Y2-B', trade: 'SOD', status: 'Approved' },
+            { id: 'SLG004', name: 'Alice Kubwimana', email: 'alice@example.com', phone: '+250726004', class: 'ETE-Y1-A', trade: 'ETE', status: 'Pending' },
+            { id: 'SLG005', name: 'niyonsenga hirwa christian', email: 'emmanuel@example.com', phone: '+250726005', class: 'ETE-Y1-A', trade: 'ETE', status: 'Approved' },
+            { id: 'SLG006', name: 'Grace Mukamana', email: 'grace@example.com', phone: '+250726006', class: 'BDC-Y1', trade: 'BDC', status: 'Pending' }
+        ];
+
+        function updateDashboard() {
+            const total = students.length;
+            const pending = students.filter(s => s.status === 'Pending').length;
+            const approved = students.filter(s => s.status === 'Approved').length;
+
+            document.getElementById('totalStudents').textContent = total;
+            document.getElementById('pendingCount').textContent = pending;
+            document.getElementById('approvedCount').textContent = approved;
+            document.getElementById('statsTotal').textContent = total;
+            document.getElementById('statsPending').textContent = pending;
+            document.getElementById('statsApproved').textContent = approved;
+
+            loadStudentTable();
+        }
+
+        function loadStudentTable() {
+            const tbody = document.getElementById('studentTableBody');
+            tbody.innerHTML = '';
+
+            students.forEach(student => {
+                const row = document.createElement('tr');
+                const statusClass = student.status === 'Pending' ? 'status-pending' : 'status-approved';
+                
+                row.innerHTML = `
+                    <td>${student.id}</td>
+                    <td>${student.name}</td>
+                    <td>${student.class}</td>
+                    <td>${student.trade}</td>
+                    <td>${student.email}</td>
+                    <td><span class="status-badge ${statusClass}">${student.status}</span></td>
+                    <td>
+                        <div class="action-buttons-table">
+                            <button class="btn-small" onclick="editStudent('${student.id}')">Edit</button>
+                            <button class="btn-small" onclick="deleteStudent('${student.id}')">Delete</button>
+                            <button class="btn-small" onclick="toggleStatus('${student.id}')" style="background: #4caf50; border-color: #4caf50;">Verify</button>
+                        </div>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        function openAddStudentModal() {
+            document.getElementById('addStudentModal').classList.add('show');
+        }
+
+        function closeAddStudentModal() {
+            document.getElementById('addStudentModal').classList.remove('show');
+            document.getElementById('studentName').value = '';
+            document.getElementById('studentEmail').value = '';
+            document.getElementById('studentPhone').value = '';
+            document.getElementById('studentClass').value = '';
+            document.getElementById('studentTrade').value = '';
+            document.getElementById('studentDOB').value = '';
+            document.getElementById('studentAddress').value = '';
+            removeImage();
+            currentImageData = null;
+        }
+
+        function previewImage(event) {
+            const file = event.target.files[0];
+            if (file) {
+                // Check file size (limit to 5MB)
+                if (file.size > 5 * 1024 * 1024) {
+                    alert('Image size must be less than 5MB');
+                    event.target.value = '';
+                    return;
+                }
+
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const preview = document.getElementById('photoPreview');
+                    const removeBtn = document.getElementById('removePhotoBtn');
+                    const fileNameLabel = document.getElementById('imageFileName');
+                    
+                    preview.src = e.target.result;
+                    preview.classList.add('show');
+                    removeBtn.classList.add('show');
+                    fileNameLabel.textContent = '✓ File: ' + file.name;
+                    currentImageData = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function removeImage() {
+            const preview = document.getElementById('photoPreview');
+            const removeBtn = document.getElementById('removePhotoBtn');
+            const fileInput = document.getElementById('studentPhoto');
+            const fileNameLabel = document.getElementById('imageFileName');
+            
+            preview.src = '';
+            preview.classList.remove('show');
+            removeBtn.classList.remove('show');
+            fileInput.value = '';
+            fileNameLabel.textContent = '';
+            currentImageData = null;
+        }
+
+        function addStudent(event) {
+            event.preventDefault();
+
+            const newId = 'SLG' + String(students.length + 1).padStart(3, '0');
+            const newStudent = {
+                id: newId,
+                name: document.getElementById('studentName').value,
+                email: document.getElementById('studentEmail').value,
+                phone: document.getElementById('studentPhone').value,
+                class: document.getElementById('studentClass').value,
+                trade: document.getElementById('studentTrade').value,
+                dob: document.getElementById('studentDOB').value,
+                address: document.getElementById('studentAddress').value,
+                photo: currentImageData,
+                status: 'Pending'
+            };
+
+            students.push(newStudent);
+            localStorage.setItem('students', JSON.stringify(students));
+
+            showSuccessMessage(`✓ Student ${newStudent.name} added successfully!`);
+            closeAddStudentModal();
+            updateDashboard();
+            // scroll table to newly added student
+            const tbody = document.getElementById('studentTableBody');
+            if (tbody.lastElementChild) {
+                tbody.lastElementChild.scrollIntoView({ behavior: 'smooth', block: 'end' });
+            }
+        }
+
+        function editStudent(id) {
+            const student = students.find(s => s.id === id);
+            if (student) {
+                alert(`Edit functionality for ${student.name}:\nThis would open an edit form for the student details.`);
+            }
+        }
+
+        function deleteStudent(id) {
+            const student = students.find(s => s.id === id);
+            if (student && confirm(`Are you sure you want to delete ${student.name}?`)) {
+                students = students.filter(s => s.id !== id);
+                localStorage.setItem('students', JSON.stringify(students));
+                showSuccessMessage(`✓ Student ${student.name} deleted!`);
+                updateDashboard();
+            }
+        }
+
+        function toggleStatus(id) {
+            const student = students.find(s => s.id === id);
+            if (student) {
+                student.status = student.status === 'Pending' ? 'Approved' : 'Pending';
+                localStorage.setItem('students', JSON.stringify(students));
+                showSuccessMessage(`✓ ${student.name} status updated to ${student.status}!`);
+                updateDashboard();
+            }
+        }
+
+        function exportStudents() {
+            const csv = 'ID,Name,Email,Phone,Class,Trade,Status\n' +
+                students.map(s => `${s.id},${s.name},${s.email},${s.phone},${s.class},${s.trade},${s.status}`).join('\n');
+            
+            const blob = new Blob([csv], { type: 'text/csv' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `students_${new Date().toISOString().split('T')[0]}.csv`;
+            a.click();
+            showSuccessMessage('✓ Student list exported as CSV!');
+        }
+
+        function showSuccessMessage(message) {
+            const msg = document.getElementById('successMessage');
+            msg.textContent = message;
+            msg.style.display = 'block';
+            setTimeout(() => {
+                msg.style.display = 'none';
+            }, 3000);
+        }
+        document.getElementById('addStudentModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeAddStudentModal();
+            }
+        });
+        updateDashboard();
+        const uploadContainer = document.getElementById('imageUploadContainer');
+        
+        uploadContainer.addEventListener('click', function() {
+            document.getElementById('studentPhoto').click();
+        });
+
+        uploadContainer.addEventListener('dragover', function(e) {
+            e.preventDefault();
+            this.style.borderColor = '#00bfff';
+            this.style.background = 'rgba(0, 191, 255, 0.15)';
+        });
+
+        uploadContainer.addEventListener('dragleave', function(e) {
+            e.preventDefault();
+            this.style.borderColor = 'rgba(0, 191, 255, 0.5)';
+            this.style.background = 'rgba(0, 191, 255, 0.05)';
+        });
+
+        uploadContainer.addEventListener('drop', function(e) {
+            e.preventDefault();
+            this.style.borderColor = 'rgba(0, 191, 255, 0.5)';
+            this.style.background = 'rgba(0, 191, 255, 0.05)';
+            
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                const fileInput = document.getElementById('studentPhoto');
+                fileInput.files = files;
+                const event = new Event('change', { bubbles: true });
+                fileInput.dispatchEvent(event);
+            }
+        });
+    </script>
+
+<button class="back-to-top" onclick="scrollToTop()" title="Back to top">↑</button>
+<script src="theme.js"></script>
+</body>
+</html>

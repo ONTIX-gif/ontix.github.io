@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Saint Laurent de Gaseke</title>
+    <link rel="stylesheet" href="main.css">
+    <style>
+        .logo {
+            width: 20%;
+            max-width: 220px;
+            border-radius: 20px;
+            box-shadow: 0 12px 30px rgba(0,0,0,0.5);
+            border: 4px solid #00bfff;
+            margin: 20px 0;
+            transition: transform 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: translateY(-10px);
+        }
+
+        .admin-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .auth-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(4px);
+        }
+
+        /* password field styling */
+        .password-field {
+            position: relative;
+        }
+
+        .password-field input[type="password"],
+        .password-field input[type="text"] {
+            width: 100%;
+            padding-right: 40px;
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            font-size: 18px;
+            color: var(--text-light);
+            user-select: none;
+        }
+
+        .toggle-password:hover {
+            color: var(--accent);
+        }
+
+        .auth-modal.show {
+            display: flex;
+        }
+
+        .auth-form {
+            background: linear-gradient(135deg, #0d5f7f 0%, #0a4a63 100%);
+            padding: 50px;
+            border-radius: var(--border-radius-lg);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+            width: 90%;
+            max-width: 400px;
+            border: 2px solid var(--primary-color);
+        }
+
+        .auth-form h2 {
+            color: var(--primary-color);
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 10px;
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 14px 16px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(0, 191, 255, 0.3);
+            border-radius: var(--border-radius);
+            color: white;
+            font-family: inherit;
+            transition: var(--transition);
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 15px rgba(0, 191, 255, 0.3);
+        }
+
+        .form-group input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .auth-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .auth-buttons button {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+
+        .btn-login {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+            color: white;
+            box-shadow: 0 4px 12px var(--shadow-glow);
+        }
+
+        .btn-login:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 191, 255, 0.5);
+        }
+
+        .btn-cancel {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+        }
+
+        .btn-cancel:hover {
+            background: rgba(0, 191, 255, 0.2);
+        }
+
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 30px 0;
+            padding: 20px;
+            background: linear-gradient(135deg, rgba(13, 95, 127, 0.3), rgba(10, 74, 99, 0.3));
+            border-radius: var(--border-radius-lg);
+            border-left: 5px solid var(--primary-color);
+        }
+
+        .admin-title h2 {
+            margin: 0;
+            color: var(--primary-color);
+        }
+
+        .admin-user {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .user-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            border: 2px solid var(--primary-color);
+        }
+
+        .user-info p {
+            margin: 2px 0;
+            font-size: 14px;
+        }
+
+        .user-role {
+            color: var(--primary-color);
+            font-weight: 700;
+        }
+
+        .logout-btn {
+            padding: 10px 20px;
+            background: linear-gradient(135deg, rgba(244, 67, 54, 0.3), rgba(211, 47, 47, 0.3));
+            color: #f44336;
+            border: 1px solid #f44336;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+
+        .logout-btn:hover {
+            background: linear-gradient(135deg, rgba(244, 67, 54, 0.5), rgba(211, 47, 47, 0.5));
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .dashboard-card {
+            background: linear-gradient(135deg, #0d5f7f 0%, #0a4a63 100%);
+            padding: 30px;
+            border-radius: var(--border-radius-lg);
+            box-shadow: 0 10px 30px var(--shadow);
+            transition: var(--transition);
+            border: 2px solid transparent;
+        }
+
+        .dashboard-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 191, 255, 0.3);
+            border-color: var(--primary-color);
+        }
+
+        .dashboard-icon {
+            font-size: 40px;
+            margin-bottom: 15px;
+        }
+
+        .dashboard-card h3 {
+            color: white;
+            margin: 10px 0;
+            font-size: 20px;
+        }
+
+        .dashboard-card p {
+            font-size: 14px;
+            color: var(--text-light);
+            margin-bottom: 15px;
+        }
+
+        .dashboard-number {
+            font-size: 32px;
+            color: var(--primary-color);
+            font-weight: 700;
+        }
+
+        .dashboard-action {
+            margin-top: 15px;
+        }
+
+        .dashboard-action a,
+        .dashboard-action button {
+            display: inline-block;
+            padding: 10px 20px;
+            background: var(--primary-color);
+            color: var(--bg-dark);
+            text-decoration: none;
+            border: none;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+
+        .dashboard-action a:hover,
+        .dashboard-action button:hover {
+            background: var(--accent);
+            transform: translateY(-2px);
+        }
+
+        .pending-section {
+            background: linear-gradient(135deg, rgba(13, 95, 127, 0.5), rgba(10, 74, 99, 0.5));
+            padding: 30px;
+            border-radius: var(--border-radius-lg);
+            margin: 30px 0;
+            box-shadow: 0 10px 30px var(--shadow);
+        }
+
+        .pending-section h3 {
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            font-size: 22px;
+        }
+
+        .pending-list {
+            display: grid;
+            gap: 15px;
+        }
+
+        .pending-item {
+            background: linear-gradient(135deg, #0d5f7f 0%, #0a4a63 100%);
+            padding: 20px;
+            border-radius: var(--border-radius);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-left: 4px solid #ffc107;
+        }
+
+        .pending-info h4 {
+            margin: 0 0 8px;
+            color: white;
+        }
+
+        .pending-info p {
+            margin: 5px 0;
+            font-size: 13px;
+            color: var(--text-light);
+        }
+
+        .pending-type {
+            display: inline-block;
+            padding: 4px 10px;
+            background: rgba(255, 193, 7, 0.3);
+            color: #ffc107;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .pending-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-approve,
+        .btn-reject {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 13px;
+            transition: var(--transition);
+        }
+
+        .btn-approve {
+            background: rgba(76, 175, 80, 0.3);
+            color: #4caf50;
+            border: 1px solid #4caf50;
+        }
+
+        .btn-approve:hover {
+            background: #4caf50;
+            color: white;
+        }
+
+        .btn-reject {
+            background: rgba(244, 67, 54, 0.3);
+            color: #f44336;
+            border: 1px solid #f44336;
+        }
+
+        .btn-reject:hover {
+            background: #f44336;
+            color: white;
+        }
+
+        .notification {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            padding: 20px 30px;
+            background: #4caf50;
+            color: white;
+            border-radius: var(--border-radius);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+            display: none;
+            z-index: 999;
+            animation: slideIn 0.3s ease;
+        }
+
+        .notification.show {
+            display: block;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .admin-menu {
+            background: linear-gradient(135deg, rgba(13, 95, 127, 0.5), rgba(10, 74, 99, 0.5));
+            padding: 20px;
+            border-radius: var(--border-radius-lg);
+            margin: 30px 0;
+            box-shadow: 0 10px 30px var(--shadow);
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .admin-menu-btn {
+            padding: 20px;
+            background: linear-gradient(135deg, #0d5f7f 0%, #0a4a63 100%);
+            border: 2px solid var(--primary-color);
+            color: var(--primary-color);
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-weight: 600;
+            transition: var(--transition);
+            text-align: center;
+            text-decoration: none;
+            display: block;
+        }
+
+        .admin-menu-btn:hover {
+            background: var(--primary-color);
+            color: var(--bg-dark);
+            transform: translateY(-3px);
+        }
+
+        .admin-menu-btn span {
+            display: block;
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .admin-header {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+
+            .admin-user {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .pending-item {
+                flex-direction: column;
+                gap: 15px;
+                align-items: flex-start;
+            }
+
+            .pending-actions {
+                width: 100%;
+            }
+
+            .auth-form {
+                padding: 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Saint Laurent de Gaseke - Admin Panel</h1>
+        <img src="saint laurent enhanced.png" alt="logo" class="logo">
+        <p>Administrative Management System</p>
+        <button class="theme-toggle" onclick="toggleTheme()" title="Toggle light/dark mode">🌗</button>
+    </header>
+
+    <!-- Auth Modal -->
+    <div class="auth-modal" id="authModal">
+        <div class="auth-form">
+            <h2>🔐 Admin Login</h2>
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" placeholder="Enter admin username" value="admin">
+            </div>
+            <div class="form-group password-wrap">
+                <label for="password">Password</label>
+                <div class="password-field">
+                    <input type="password" id="password" placeholder="Enter password" value="password123">
+                    <span class="toggle-password" onclick="togglePassword()">👁️</span>
+                </div>
+            </div>
+            <div class="auth-buttons">
+                <button class="btn-login" onclick="login()">Login</button>
+                <button class="btn-cancel" onclick="guestLogin()">Guest Login</button>
+            </div>
+            <p style="text-align: center; margin-top: 15px; font-size: 13px; color: var(--text-light);">
+                Demo: Use admin/password123
+            </p>
+        </div>
+    </div>
+
+    <!-- Notification -->
+    <div class="notification" id="notification"></div>
+
+    <!-- Main Admin Content -->
+    <div class="admin-container" id="adminContent" style="display: none;">
+        <a href="gseke.html" class="home-btn">🏠 Home</a>
+
+        <!-- Admin Header -->
+        <div class="admin-header">
+            <div class="admin-title">
+                <h2>📊 Admin Dashboard</h2>
+            </div>
+            <div class="admin-user">
+                <div class="user-avatar">👨‍💼</div>
+                <div class="user-info">
+                    <div class="user-role" id="userRole">Administrator</div>
+                    <p id="userName">Admin User</p>
+                    <p id="loginTime" style="font-size: 12px; opacity: 0.8;"></p>
+                </div>
+                <button class="logout-btn" onclick="logout()">🚪 Logout</button>
+            </div>
+        </div>
+
+        <!-- Admin Menu -->
+        <div class="admin-menu">
+            <a href="admin-students.html" class="admin-menu-btn">
+                <span>👨‍🎓</span>
+                Manage Students
+            </a>
+            <a href="admin-marks.html" class="admin-menu-btn">
+                <span>📝</span>
+                Manage Marks
+            </a>
+            <button class="admin-menu-btn" onclick="alert('Class management coming soon')">
+                <span>📚</span>
+                Manage Classes
+            </button>
+            <button class="admin-menu-btn" onclick="alert('Instructor management coming soon')">
+                <span>👨‍🏫</span>
+                Manage Instructors
+            </button>
+        </div>
+
+        <!-- Dashboard Stats -->
+        <div class="dashboard-grid">
+            <div class="dashboard-card">
+                <div class="dashboard-icon">👨‍🎓</div>
+                <h3>Total Students</h3>
+                <p>Active enrollment</p>
+                <div class="dashboard-number">847</div>
+                <div class="dashboard-action">
+                    <a href="student-profiles.html">View All</a>
+                </div>
+            </div>
+
+            <div class="dashboard-card">
+                <div class="dashboard-icon">⏳</div>
+                <h3>Pending Approvals</h3>
+                <p>Awaiting verification</p>
+                <div class="dashboard-number">12</div>
+                <div class="dashboard-action">
+                    <button onclick="scrollToPending()">Review</button>
+                </div>
+            </div>
+
+            <div class="dashboard-card">
+                <div class="dashboard-icon">✅</div>
+                <h3>Verified Records</h3>
+                <p>Confirmed this month</p>
+                <div class="dashboard-number">156</div>
+                <div class="dashboard-action">
+                    <button onclick="alert('View verification logs')">History</button>
+                </div>
+            </div>
+
+            <div class="dashboard-card">
+                <div class="dashboard-icon">⚠️</div>
+                <h3>Issues Pending</h3>
+                <p>Needs attention</p>
+                <div class="dashboard-number">8</div>
+                <div class="dashboard-action">
+                    <button onclick="alert('Showing issue reports')">Check</button>
+                </div>
+            </div>
+
+            <div class="dashboard-card">
+                <div class="dashboard-icon">📚</div>
+                <h3>Active Classes</h3>
+                <p>Currently running</p>
+                <div class="dashboard-number">24</div>
+                <div class="dashboard-action">
+                    <a href="student-classes.html">Manage</a>
+                </div>
+            </div>
+
+            <div class="dashboard-card">
+                <div class="dashboard-icon">📊</div>
+                <h3>Attendance Rate</h3>
+                <p>Average across all classes</p>
+                <div class="dashboard-number">92%</div>
+                <div class="dashboard-action">
+                    <button onclick="alert('View attendance reports')">Report</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pending Verifications Section -->
+        <div class="pending-section" id="pendingSection">
+            <h3>⏳ Pending Verifications & Approvals</h3>
+            <p style="color: var(--text-light); margin-bottom: 20px; font-size: 14px;">
+                Review and approve pending requests from students and staff
+            </p>
+
+            <div class="pending-list">
+                <!-- New Student Enrollment -->
+                <div class="pending-item">
+                    <div class="pending-info">
+                        <h4>New Student Enrollment - Amina Mukeshimana</h4>
+                        <p><span class="pending-type">ENROLLMENT</span></p>
+                        <p>Submitted: 2026-03-01 • Trade: Software Development (SOD)</p>
+                        <p>Documents: ✓ Certificate ✓ ID ✓ Photo - Pending verification</p>
+                    </div>
+                    <div class="pending-actions">
+                        <button class="btn-approve" onclick="approveRequest('enrollment', 'Amina')">✓ Approve</button>
+                        <button class="btn-reject" onclick="rejectRequest('enrollment', 'Amina')">✗ Reject</button>
+                    </div>
+                </div>
+
+                <!-- Grade Submission -->
+                <div class="pending-item">
+                    <div class="pending-info">
+                        <h4>Grade Submission - Mr. Michel Muzire (SOD-Y1-A)</h4>
+                        <p><span class="pending-type">GRADES</span></p>
+                        <p>Submitted: 2026-03-02 • 35 student records • Web Development Fundamentals</p>
+                        <p>Status: Awaiting admin verification before publishing</p>
+                    </div>
+                    <div class="pending-actions">
+                        <button class="btn-approve" onclick="approveRequest('grades', 'Michel')">✓ Approve</button>
+                        <button class="btn-reject" onclick="rejectRequest('grades', 'Michel')">✗ Review</button>
+                    </div>
+                </div>
+
+                <!-- Transcript Request -->
+                <div class="pending-item">
+                    <div class="pending-info">
+                        <h4>Official Transcript Request - Emmanuel Habimana</h4>
+                        <p><span class="pending-type">TRANSCRIPT</span></p>
+                        <p>Requested: 2026-03-01 • ID: SLG005 • Purpose: Job Application</p>
+                        <p>Currently in Year 2 - Complete academic record review required</p>
+                    </div>
+                    <div class="pending-actions">
+                        <button class="btn-approve" onclick="approveRequest('transcript', 'Emmanuel')">✓ Approve</button>
+                        <button class="btn-reject" onclick="rejectRequest('transcript', 'Emmanuel')">✗ Reject</button>
+                    </div>
+                </div>
+
+                <!-- Mark Correction -->
+                <div class="pending-item">
+                    <div class="pending-info">
+                        <h4>Mark Correction Request - Jean-Paul Nkusi</h4>
+                        <p><span class="pending-type">CORRECTION</span></p>
+                        <p>Submitted: 2026-03-02 • ID: SLG001 • Course: Database Management</p>
+                        <p>Reason: Score discrepancy • Instructor: Mr. Nishimwe (verification pending)</p>
+                    </div>
+                    <div class="pending-actions">
+                        <button class="btn-approve" onclick="approveRequest('correction', 'Jean-Paul')">✓ Approve</button>
+                        <button class="btn-reject" onclick="rejectRequest('correction', 'Jean-Paul')">✗ Deny</button>
+                    </div>
+                </div>
+
+                <!-- Class Registration -->
+                <div class="pending-item">
+                    <div class="pending-info">
+                        <h4>Class Registration Change - Grace Mukamana</h4>
+                        <p><span class="pending-type">REGISTRATION</span></p>
+                        <p>Submitted: 2026-03-02 • ID: SLG008 • From: ELT-Y2-B to ELT-Y2-A</p>
+                        <p>Reason: Schedule conflict resolution • Advisor approval obtained</p>
+                    </div>
+                    <div class="pending-actions">
+                        <button class="btn-approve" onclick="approveRequest('registration', 'Grace')">✓ Approve</button>
+                        <button class="btn-reject" onclick="rejectRequest('registration', 'Grace')">✗ Deny</button>
+                    </div>
+                </div>
+
+                <!-- Graduation Clearance -->
+                <div class="pending-item">
+                    <div class="pending-info">
+                        <h4>Graduation Clearance - Nadine Tuyisenge</h4>
+                        <p><span class="pending-type">GRADUATION</span></p>
+                        <p>Submitted: 2026-02-28 • ID: SLG006 • Status: Year 3 Completed</p>
+                        <p>All coursework done • Dean approval obtained • Awaiting final verification</p>
+                    </div>
+                    <div class="pending-actions">
+                        <button class="btn-approve" onclick="approveRequest('graduation', 'Nadine')">✓ Approve</button>
+                        <button class="btn-reject" onclick="rejectRequest('graduation', 'Nadine')">✗ Review</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function togglePassword() {
+            const pwdField = document.getElementById('password');
+            if (pwdField.type === 'password') {
+                pwdField.type = 'text';
+                document.querySelector('.toggle-password').textContent = '🙈';
+            } else {
+                pwdField.type = 'password';
+                document.querySelector('.toggle-password').textContent = '👁️';
+            }
+        }
+
+        function login() {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            if (username === 'admin' && password === 'password123') {
+                showAdmin(username);
+            } else {
+                alert('Invalid credentials. Try admin/password123');
+            }
+        }
+
+        function guestLogin() {
+            showAdmin('Guest');
+        }
+
+        function showAdmin(username) {
+            document.getElementById('authModal').classList.remove('show');
+            document.getElementById('adminContent').style.display = 'block';
+            document.getElementById('userName').textContent = username + ' User';
+            
+            const now = new Date();
+            const timeStr = now.toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+            document.getElementById('loginTime').textContent = 'Logged in: ' + timeStr;
+        }
+
+        function logout() {
+            if (confirm('Are you sure you want to logout?')) {
+                document.getElementById('authModal').classList.add('show');
+                document.getElementById('adminContent').style.display = 'none';
+                document.getElementById('username').value = '';
+                document.getElementById('password').value = '';
+            }
+        }
+
+        function approveRequest(type, name) {
+            showNotification(`✓ ${type.toUpperCase()} for ${name} has been APPROVED!`);
+            // Remove the approved item
+            event.target.closest('.pending-item').style.opacity = '0.5';
+            event.target.closest('.pending-item').style.pointerEvents = 'none';
+        }
+
+        function rejectRequest(type, name) {
+            const reason = prompt(`Reason for rejecting ${type} for ${name}:`, 'Does not meet requirements');
+            if (reason) {
+                showNotification(`✗ ${type.toUpperCase()} for ${name} has been REJECTED. Reason: ${reason}`);
+                event.target.closest('.pending-item').style.opacity = '0.5';
+                event.target.closest('.pending-item').style.pointerEvents = 'none';
+            }
+        }
+
+        function showNotification(message) {
+            const notif = document.getElementById('notification');
+            notif.textContent = message;
+            notif.classList.add('show');
+            setTimeout(() => notif.classList.remove('show'), 4000);
+        }
+
+        function scrollToPending() {
+            document.getElementById('pendingSection').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Show auth modal on load
+        window.addEventListener('load', () => {
+            document.getElementById('authModal').classList.add('show');
+        });
+    </script>
+
+<button class="back-to-top" onclick="scrollToTop()" title="Back to top">↑</button>
+<script src="theme.js"></script>
+</body>
+</html>

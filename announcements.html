@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Announcements - Saint Laurent de Gaseke</title>
+    <link rel="stylesheet" href="main.css">
+    <style>
+        section {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 30px;
+        }
+        
+        .announcement-card {
+            background: linear-gradient(135deg, rgba(13, 95, 127, 0.6), rgba(10, 74, 99, 0.6));
+            border: 2px solid rgba(0, 191, 255, 0.3);
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .announcement-card:hover {
+            border-color: #00bfff;
+            box-shadow: 0 12px 32px rgba(0, 191, 255, 0.3);
+            transform: translateY(-5px);
+        }
+        
+        .announcement-date {
+            color: #00bfff;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+        
+        .announcement-title {
+            font-size: 22px;
+            color: white;
+            margin-bottom: 12px;
+            border-bottom: 2px solid rgba(0, 191, 255, 0.2);
+            padding-bottom: 12px;
+        }
+        
+        .announcement-category {
+            display: inline-block;
+            background: rgba(0, 191, 255, 0.2);
+            color: #00bfff;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            margin-bottom: 15px;
+        }
+        
+        .announcement-content {
+            color: rgba(255,255,255,0.85);
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+        
+        .announcement-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 12px;
+            color: rgba(255,255,255,0.6);
+        }
+    </style>
+</head>
+<body>
+    <a href="gseke.html" class="home-btn">🏠 Home</a>
+
+    <header>
+        <h1>Saint Laurent de Gaseke</h1>
+        <img src="saint laurent enhanced.png" alt="logo" class="logo">
+        <p>Excellence in Technical and Vocational Education</p>
+        <button class="theme-toggle" onclick="toggleTheme()" title="Toggle light/dark mode">🌗</button>
+    </header>
+
+    <nav class="main-nav">
+        <a href="gseke.html">Home</a>
+        <a href="about2.html">About</a>
+        <a href="page2.html">Trades</a>
+        <a href="announcements.html">News</a>
+        <a href="gallery.html">Gallery</a>
+        <a href="contact.html">Contact</a>
+        <a href="PROJECTS.html">Projects</a>
+        <a href="https://mineduc.gov.rw" target="_blank">MINEDUC</a>
+    </nav>
+
+    <section>
+        <h2>Latest Announcements & News</h2>
+        <p>Stay updated with the latest news, events, and announcements from Saint Laurent de Gaseke</p>
+
+        <div class="announcement-card">
+            <div class="announcement-date">March 5, 2026</div>
+            <h3 class="announcement-title">Spring Semester Enrollment Now Open</h3>
+            <span class="announcement-category">Admissions</span>
+            <p class="announcement-content">
+                We are excited to announce that enrollment for the Spring 2026 semester is now open! Students can apply for our four trade programs: Software Development (SOD), Electrical Technology (ETE), Building Construction (BDC), and Electronics & Telecom (ELT). 
+                <strong>Application Deadline: March 31, 2026</strong>
+            </p>
+            <div class="announcement-footer">
+                <span>Posted by: Admin</span>
+                <a href="admissions.html" style="color: #00bfff;">Apply Now →</a>
+            </div>
+        </div>
+
+        <div class="announcement-card">
+            <div class="announcement-date">February 28, 2026</div>
+            <h3 class="announcement-title">Annual Technology Expo 2026 - Save the Date</h3>
+            <span class="announcement-category">Events</span>
+            <p class="announcement-content">
+                Mark your calendars! Saint Laurent de Gaseke will host its Annual Technology Expo on April 15-17, 2026. 
+                This year's expo will feature student projects, industry partners, workshops, and live demonstrations. 
+                All students, alumni, and the public are invited to attend this exciting event!
+            </p>
+            <div class="announcement-footer">
+                <span>Posted by: Events Team</span>
+                <span>📍 Main Campus</span>
+            </div>
+        </div>
+
+        <div class="announcement-card">
+            <div class="announcement-date">February 20, 2026</div>
+            <h3 class="announcement-title">Outstanding Students Recognition Ceremony</h3>
+            <span class="announcement-category">Achievement</span>
+            <p class="announcement-content">
+                Congratulations to all our outstanding students! We held a special recognition ceremony to celebrate the achievements of our top performers in academics, projects, and extracurricular activities. 
+                A total of 47 students received awards across all trade programs. View the gallery to see photos from the event!
+            </p>
+            <div class="announcement-footer">
+                <span>Posted by: Administration</span>
+                <a href="gallery.html" style="color: #00bfff;">View Photos →</a>
+            </div>
+        </div>
+
+        <div class="announcement-card">
+            <div class="announcement-date">February 10, 2026</div>
+            <h3 class="announcement-title">Partnership with Tech Industry Leaders</h3>
+            <span class="announcement-category">Partnerships</span>
+            <p class="announcement-content">
+                We are thrilled to announce our new partnership with leading technology and construction companies. 
+                This collaboration will provide our students with internship opportunities, mentorship programs, and direct job placements. 
+                Students will have access to industry experts and real-world projects!
+            </p>
+            <div class="announcement-footer">
+                <span>Posted by: Director</span>
+                <span>🤝 Industry Relations</span>
+            </div>
+        </div>
+
+        <div class="announcement-card">
+            <div class="announcement-date">January 30, 2026</div>
+            <h3 class="announcement-title">New Solar Power System Installed</h3>
+            <span class="announcement-category">Campus Development</span>
+            <p class="announcement-content">
+                Our ETE students have successfully completed and installed a new solar power system on the main campus! 
+                The 50kW system will provide clean energy, reduce operational costs, and serve as a learning lab for future students. 
+                This is a great example of our practical, hands-on education approach!
+            </p>
+            <div class="announcement-footer">
+                <span>Posted by: ETE Department</span>
+                <a href="PROJECTS.html" style="color: #00bfff;">View Project Details →</a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 Saint Laurent de Gaseke | Excellence in Technical Education</p>
+        <div class="footer-links">
+            <a href="admissions.html">Admissions</a>
+            <a href="contact.html">Contact</a>
+            <a href="page2.html">Programs</a>
+            <a href="https://mineduc.gov.rw">MINEDUC</a>
+        </div>
+    </footer>
+
+<button class="back-to-top" onclick="scrollToTop()" title="Back to top">↑</button>
+<script src="theme.js"></script>
+    <script>
+        // Could add search/filter functionality here
+        console.log('Announcements page loaded successfully');
+    </script>
+</body>
+</html>

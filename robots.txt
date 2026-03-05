@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+Disallow: /admin.html
+Disallow: /admin-dashboard.html
+Disallow: /admin-marks.html
+Disallow: /admin-students.html
+
+Sitemap: https://saintlaurentdegaseke.rw/sitemap.xml

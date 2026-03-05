@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Classes - Saint Laurent de Gaseke</title>
+    <link rel="stylesheet" href="main.css">
+    <style>
+        .logo {
+            width: 20%;
+            max-width: 220px;
+            border-radius: 20px;
+            box-shadow: 0 12px 30px rgba(0,0,0,0.5);
+            border: 4px solid #00bfff;
+            margin: 20px 0;
+            transition: transform 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: translateY(-10px);
+        }
+
+        .classes-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .filter-section {
+            display: flex;
+            gap: 15px;
+            margin: 30px 0;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .filter-section select,
+        .filter-section input {
+            padding: 12px 20px;
+            border-radius: var(--border-radius);
+            border: 2px solid rgba(0, 191, 255, 0.3);
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            cursor: pointer;
+            font-weight: 600;
+            transition: var(--transition);
+            font-family: inherit;
+        }
+
+        .filter-section select:focus,
+        .filter-section input:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 15px rgba(0, 191, 255, 0.3);
+            outline: none;
+        }
+
+        .filter-section select option {
+            background: var(--bg-dark);
+            color: white;
+        }
+
+        .filter-section input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .classes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .class-card {
+            background: linear-gradient(135deg, #0d5f7f 0%, #0a4a63 100%);
+            border-radius: var(--border-radius-lg);
+            overflow: hidden;
+            box-shadow: 0 10px 30px var(--shadow);
+            transition: var(--transition);
+            border: 2px solid transparent;
+        }
+
+        .class-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 45px rgba(0, 191, 255, 0.4);
+            border-color: var(--primary-color);
+        }
+
+        .class-header {
+            background: linear-gradient(135deg, #1a7f9a 0%, #0f5a7a 100%);
+            padding: 25px;
+            border-bottom: 2px solid rgba(0, 191, 255, 0.2);
+        }
+
+        .class-code {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.7);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+
+        .class-header h3 {
+            margin: 0;
+            color: white;
+            font-size: 24px;
+        }
+
+        .class-trade {
+            font-size: 13px;
+            color: var(--primary-color);
+            margin-top: 8px;
+            font-weight: 600;
+        }
+
+        .class-body {
+            padding: 25px;
+        }
+
+        .info-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(0, 191, 255, 0.1);
+            font-size: 14px;
+        }
+
+        .info-item:last-child {
+            border-bottom: none;
+        }
+
+        .info-label {
+            color: var(--text-light);
+            font-weight: 600;
+        }
+
+        .info-value {
+            color: var(--primary-color);
+            text-align: right;
+        }
+
+        .instructor-badge {
+            background: linear-gradient(135deg, rgba(0, 191, 255, 0.2), rgba(0, 156, 204, 0.2));
+            padding: 12px;
+            border-radius: 8px;
+            margin-top: 15px;
+            border-left: 3px solid var(--primary-color);
+        }
+
+        .instructor-badge p {
+            margin: 5px 0;
+            font-size: 14px;
+        }
+
+        .instructor-name {
+            color: var(--primary-color);
+            font-weight: 700;
+        }
+
+        .status-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+
+        .status-active {
+            background: #4caf50;
+        }
+
+        .status-finished {
+            background: #2196f3;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .btn-small {
+            flex: 1;
+            padding: 10px 12px;
+            border: 1px solid var(--primary-color);
+            background: transparent;
+            color: var(--primary-color);
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+
+        .btn-small:hover {
+            background: var(--primary-color);
+            color: var(--bg-dark);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .stat-box {
+            background: linear-gradient(135deg, rgba(13, 95, 127, 0.5), rgba(10, 74, 99, 0.5));
+            padding: 25px;
+            border-radius: var(--border-radius-lg);
+            border-left: 5px solid var(--primary-color);
+            text-align: center;
+            box-shadow: 0 10px 30px var(--shadow);
+        }
+
+        .stat-number {
+            font-size: 36px;
+            color: var(--primary-color);
+            font-weight: 700;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: var(--text-light);
+            margin-top: 10px;
+        }
+
+        .schedule-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .schedule-card {
+            background: linear-gradient(135deg, rgba(13, 95, 127, 0.5), rgba(10, 74, 99, 0.5));
+            padding: 20px;
+            border-radius: var(--border-radius-lg);
+            box-shadow: 0 10px 30px var(--shadow);
+        }
+
+        .schedule-card h4 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+
+        .time-slot {
+            display: flex;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(0, 191, 255, 0.1);
+            font-size: 13px;
+        }
+
+        .time-slot:last-child {
+            border-bottom: none;
+        }
+
+        .time {
+            color: var(--primary-color);
+            font-weight: 700;
+            min-width: 80px;
+        }
+
+        .day {
+            color: var(--text-light);
+            flex: 1;
+            margin-left: 15px;
+        }
+
+        .room {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 12px;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 40px;
+            color: var(--text-light);
+        }
+
+        @media (max-width: 768px) {
+            .classes-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .schedule-section {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <a href="gseke.html" class="home-btn">🏠 Home</a>
+
+    <header>
+        <h1>Saint Laurent de Gaseke</h1>
+        <img src="saint laurent enhanced.png" alt="logo" class="logo">
+        <p>Excellence in Technical and Vocational Education</p>
+        <button class="theme-toggle" onclick="toggleTheme()" title="Toggle light/dark mode">🌗</button>
+    </header>
+
+    <nav class="main-nav">
+        <a href="gseke.html">Home</a>
+        <a href="about2.html">About</a>
+        <a href="page2.html">Trades</a>
+        <a href="student-profiles.html">Students</a>
+        <a href="student-classes.html">Classes</a>
+        <a href="student-marks.html">Marks</a>
+        <a href="admissions.html">Admissions</a>
+        <a href="gallery.html">Gallery</a>
+        <a href="contact.html">Contact</a>
+        <a href="admin-dashboard.html">Admin</a>
+        <a href="PROJECTS.html">Projects</a>
+        <a href="https://mineduc.gov.rw" target="_blank">MINEDUC</a>
+    </nav>
+
+    <section class="classes-container">
+        <h2>Student Classes & Schedules</h2>
+        <p>View all active classes and timetables across all trades</p>
+
+        <!-- Statistics -->
+        <div class="stats-grid">
+            <div class="stat-box">
+                <div class="stat-number">24</div>
+                <div class="stat-label">Active Classes</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-number">847</div>
+                <div class="stat-label">Total Students</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-number">42</div>
+                <div class="stat-label">Instructors</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-number">4</div>
+                <div class="stat-label">Programs</div>
+            </div>
+        </div>
+
+        <!-- Filter Section -->
+        <div class="filter-section">
+            <select id="tradeFilter" onchange="filterClasses()">
+                <option value="">All Trades</option>
+                <option value="SOD">Software Development (SOD)</option>
+                <option value="ETE">Electrical Technology (ETE)</option>
+                <option value="BDC">Building Construction (BDC)</option>
+                <option value="ELT">Electronics & Telecom (ELT)</option>
+            </select>
+            <select id="yearFilter" onchange="filterClasses()">
+                <option value="">All Years</option>
+                <option value="Year 1">Year 1</option>
+                <option value="Year 2">Year 2</option>
+                <option value="Year 3">Year 3</option>
+            </select>
+            <select id="statusFilter" onchange="filterClasses()">
+                <option value="">All Status</option>
+                <option value="Active">Active</option>
+                <option value="Finished">Finished</option>
+            </select>
+            <input type="text" id="searchInput" placeholder="Search class name..." onkeyup="filterClasses()">
+        </div>
+
+        <!-- Classes Grid -->
+        <div class="classes-grid" id="classesGrid">
+            <!-- Class cards will be populated here -->
+        </div>
+
+        <!-- Example Schedule Section -->
+        <h3 style="color: var(--primary-color); margin-top: 50px; margin-bottom: 20px;">📅 Weekly Schedule Sample</h3>
+        <div class="schedule-section">
+            <div class="schedule-card">
+                <h4>Monday</h4>
+                <div class="time-slot">
+                    <span class="time">08:00</span>
+                    <div class="day">SOD Year 1 - Web Dev<span class="room">(Lab 1)</span></div>
+                </div>
+                <div class="time-slot">
+                    <span class="time">10:00</span>
+                    <div class="day">ETE Year 2 - Circuits<span class="room">(Lab 3)</span></div>
+                </div>
+                <div class="time-slot">
+                    <span class="time">14:00</span>
+                    <div class="day">BDC Year 3 - Design<span class="room">(Room 5)</span></div>
+                </div>
+            </div>
+
+            <div class="schedule-card">
+                <h4>Wednesday</h4>
+                <div class="time-slot">
+                    <span class="time">09:00</span>
+                    <div class="day">ELT Year 1 - Electronics<span class="room">(Lab 4)</span></div>
+                </div>
+                <div class="time-slot">
+                    <span class="time">11:00</span>
+                    <div class="day">SOD Year 2 - Database<span class="room">(Lab 2)</span></div>
+                </div>
+                <div class="time-slot">
+                    <span class="time">15:00</span>
+                    <div class="day">BDC Year 1 - Foundation<span class="room">(Workshop)</span></div>
+                </div>
+            </div>
+
+            <div class="schedule-card">
+                <h4>Friday</h4>
+                <div class="time-slot">
+                    <span class="time">08:30</span>
+                    <div class="day">All Year 1 - Assembly <span class="room">(Hall)</span></div>
+                </div>
+                <div class="time-slot">
+                    <span class="time">10:00</span>
+                    <div class="day">SOD Year 3 - Projects<span class="room">(Lab 1)</span></div>
+                </div>
+                <div class="time-slot">
+                    <span class="time">13:00</span>
+                    <div class="day">ETE Year 3 - Practical<span class="room">(Lab 3)</span></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 Saint Laurent de Gaseke | Excellence in Technical Education</p>
+        <div class="footer-links">
+            <a href="admissions.html">Admissions</a>
+            <a href="contact.html">Contact</a>
+            <a href="page2.html">Programs</a>
+            <a href="https://mineduc.gov.rw">MINEDUC</a>
+        </div>
+    </footer>
+
+    <script>
+        // Sample class data
+        const classes = [
+            {
+                code: "SOD-Y1-A",
+                name: "Web Development Basics",
+                trade: "SOD",
+                year: "Year 1",
+                status: "Active",
+                students: 35,
+                instructor: "Eng. Michel Muzire",
+                room: "Lab 1",
+                schedule: "Mon & Wed 08:00-10:00"
+            },
+            {
+                code: "SOD-Y2-B",
+                name: "Database Management",
+                trade: "SOD",
+                year: "Year 2",
+                status: "Active",
+                students: 32,
+                instructor: "Mr. Nishimwe",
+                room: "Lab 2",
+                schedule: "Tue & Thu 09:00-11:00"
+            },
+            {
+                code: "SOD-Y3-A",
+                name: "Advanced Project Work",
+                trade: "SOD",
+                year: "Year 3",
+                status: "Active",
+                students: 28,
+                instructor: "Eng. Uwamahoro",
+                room: "Lab 1",
+                schedule: "Mon, Wed, Fri 10:00-12:00"
+            },
+            {
+                code: "ETE-Y1-A",
+                name: "Electrical Fundamentals",
+                trade: "ETE",
+                year: "Year 1",
+                status: "Active",
+                students: 38,
+                instructor: "Mr. Mukandayire",
+                room: "Lab 3",
+                schedule: "Tue & Thu 08:00-10:00"
+            },
+            {
+                code: "ETE-Y2-B",
+                name: "Power Systems",
+                trade: "ETE",
+                year: "Year 2",
+                status: "Active",
+                students: 35,
+                instructor: "Eng. Habimana",
+                room: "Lab 3",
+                schedule: "Mon & Wed 10:00-12:00"
+            },
+            {
+                code: "ETE-Y3-A",
+                name: "Industrial Applications",
+                trade: "ETE",
+                year: "Year 3",
+                status: "Finished",
+                students: 30,
+                instructor: "Mr. Rwego",
+                room: "Lab 3",
+                schedule: "Completed"
+            },
+            {
+                code: "BDC-Y1-A",
+                name: "Construction Basics",
+                trade: "BDC",
+                year: "Year 1",
+                status: "Active",
+                students: 40,
+                instructor: "Eng. Bizimana",
+                room: "Workshop",
+                schedule: "Wed & Fri 08:00-12:00"
+            },
+            {
+                code: "BDC-Y2-B",
+                name: "Building Design",
+                trade: "BDC",
+                year: "Year 2",
+                status: "Active",
+                students: 36,
+                instructor: "Mr. Gizimana",
+                room: "Workshop",
+                schedule: "Mon & Thu 10:00-14:00"
+            },
+            {
+                code: "BDC-Y3-A",
+                name: "Project Management",
+                trade: "BDC",
+                year: "Year 3",
+                status: "Active",
+                students: 32,
+                instructor: "Eng. Kayiranga",
+                room: "Room 5",
+                schedule: "Tue & Fri 09:00-13:00"
+            },
+            {
+                code: "ELT-Y1-A",
+                name: "Electronics Basics",
+                trade: "ELT",
+                year: "Year 1",
+                status: "Active",
+                students: 34,
+                instructor: "Mr. Nsabimana",
+                room: "Lab 4",
+                schedule: "Tue & Thu 10:00-12:00"
+            },
+            {
+                code: "ELT-Y2-B",
+                name: "Digital Systems",
+                trade: "ELT",
+                year: "Year 2",
+                status: "Active",
+                students: 30,
+                instructor: "Eng. Nzayisenga",
+                room: "Lab 4",
+                schedule: "Mon & Wed 14:00-16:00"
+            },
+            {
+                code: "ELT-Y3-A",
+                name: "Telecom Networks",
+                trade: "ELT",
+                year: "Year 3",
+                status: "Active",
+                students: 28,
+                instructor: "Mr. Gatsinzi",
+                room: "Lab 4",
+                schedule: "Wed & Fri 13:00-15:00"
+            }
+        ];
+
+        function displayClasses(classesToShow = classes) {
+            const grid = document.getElementById("classesGrid");
+            
+            if (classesToShow.length === 0) {
+                grid.innerHTML = '<div class="no-results" style="grid-column: 1/-1;"><p>No classes found matching your criteria.</p></div>';
+                return;
+            }
+
+            grid.innerHTML = classesToShow.map(cls => `
+                <div class="class-card">
+                    <div class="class-header">
+                        <div class="class-code">${cls.code}</div>
+                        <h3>${cls.name}</h3>
+                        <div class="class-trade">${cls.trade}</div>
+                    </div>
+                    <div class="class-body">
+                        <div class="info-item">
+                            <span class="info-label">Program:</span>
+                            <span class="info-value">${cls.trade}</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Year:</span>
+                            <span class="info-value">${cls.year}</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Students:</span>
+                            <span class="info-value">${cls.students}</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Room:</span>
+                            <span class="info-value">${cls.room}</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Status:</span>
+                            <span class="info-value">
+                                <span class="status-indicator ${cls.status === 'Active' ? 'status-active' : 'status-finished'}"></span>${cls.status}
+                            </span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Schedule:</span>
+                            <span class="info-value" style="font-size: 12px;">${cls.schedule}</span>
+                        </div>
+                        <div class="instructor-badge">
+                            <p><strong>👨‍🏫 Instructor</strong></p>
+                            <p class="instructor-name">${cls.instructor}</p>
+                        </div>
+                        <div class="action-buttons">
+                            <button class="btn-small" onclick="viewClass('${cls.code}')">View</button>
+                            <button class="btn-small" onclick="viewRoster('${cls.code}')">Roster</button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function filterClasses() {
+            const trade = document.getElementById("tradeFilter").value;
+            const year = document.getElementById("yearFilter").value;
+            const status = document.getElementById("statusFilter").value;
+            const search = document.getElementById("searchInput").value.toLowerCase();
+
+            const filtered = classes.filter(cls => {
+                const matchesTrade = !trade || cls.trade === trade;
+                const matchesYear = !year || cls.year === year;
+                const matchesStatus = !status || cls.status === status;
+                const matchesSearch = !search || cls.name.toLowerCase().includes(search) || cls.code.toLowerCase().includes(search);
+                return matchesTrade && matchesYear && matchesStatus && matchesSearch;
+            });
+
+            displayClasses(filtered);
+        }
+
+        function viewClass(classCode) {
+            alert(`Viewing class details for: ${classCode}`);
+        }
+
+        function viewRoster(classCode) {
+            alert(`Viewing student roster for class: ${classCode}`);
+        }
+
+        // Initial display
+        displayClasses();
+    </script>
+
+<button class="back-to-top" onclick="scrollToTop()" title="Back to top">↑</button>
+<script src="theme.js"></script>
+</body>
+</html>

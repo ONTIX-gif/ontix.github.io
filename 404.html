@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page Not Found - Saint Laurent de Gaseke</title>
+    <link rel="stylesheet" href="main.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #001f3f 0%, #003366 50%, #004080 100%);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .error-container {
+            text-align: center;
+            padding: 40px;
+            max-width: 600px;
+        }
+        
+        .error-code {
+            font-size: 120px;
+            font-weight: bold;
+            color: #00bfff;
+            margin: 0;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+        
+        .error-title {
+            font-size: 32px;
+            margin: 20px 0;
+            color: white;
+        }
+        
+        .error-description {
+            font-size: 16px;
+            color: rgba(255,255,255,0.8);
+            margin: 20px 0 40px;
+            line-height: 1.6;
+        }
+        
+        .error-actions {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #00bfff 0%, #0099cc 100%);
+            color: white;
+            box-shadow: 0 4px 12px rgba(0, 191, 255, 0.3);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 191, 255, 0.5);
+        }
+        
+        .btn-secondary {
+            background: rgba(255,255,255,0.1);
+            color: #00bfff;
+            border: 2px solid #00bfff;
+        }
+        
+        .btn-secondary:hover {
+            background: rgba(0, 191, 255, 0.2);
+        }
+    </style>
+</head>
+<body>
+    <div class="error-container">
+        <h1 class="error-code">404</h1>
+        <h2 class="error-title">Page Not Found</h2>
+        <p class="error-description">
+            The page you're looking for doesn't exist or has been moved. 
+            Don't worry, you can use the buttons below to find what you need.
+        </p>
+        <div class="error-actions">
+            <a href="gseke.html" class="btn btn-primary">Go to Home</a>
+            <a href="contact.html" class="btn btn-secondary">Contact Us</a>
+        </div>
+    </div>
+</body>
+</html>

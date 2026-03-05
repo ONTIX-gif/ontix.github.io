@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Profiles - Saint Laurent de Gaseke</title>
+    <link rel="stylesheet" href="main.css">
+    <style>
+        .search-bar {
+            display: flex;
+            gap: 15px;
+            margin: 30px 0;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .search-bar input,
+        .search-bar select {
+            padding: 12px 15px;
+            border: 2px solid rgba(0, 191, 255, 0.3);
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border-radius: var(--border-radius);
+            font-family: inherit;
+            transition: var(--transition);
+        }
+
+        .search-bar input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .search-bar input:focus,
+        .search-bar select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 15px rgba(0, 191, 255, 0.3);
+        }
+
+        .search-bar select {
+            cursor: pointer;
+            min-width: 180px;
+        }
+
+        .search-bar select option {
+            background: var(--bg-dark);
+            color: white;
+        }
+
+        .student-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 40px;
+        }
+
+        .student-card {
+            background: linear-gradient(135deg, #0d5f7f 0%, #0a4a63 100%);
+            border-radius: var(--border-radius-lg);
+            overflow: hidden;
+            box-shadow: 0 10px 30px var(--shadow);
+            transition: var(--transition);
+            border: 2px solid transparent;
+        }
+
+        .student-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 45px rgba(0, 191, 255, 0.4);
+            border-color: var(--primary-color);
+        }
+
+        .student-header {
+            background: linear-gradient(135deg, #1a7f9a 0%, #0f5a7a 100%);
+            padding: 20px;
+            text-align: center;
+            border-bottom: 2px solid rgba(0, 191, 255, 0.2);
+        }
+
+        .student-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid white;
+        }
+
+        .student-header h3 {
+            margin: 0 0 5px;
+            color: white;
+            font-size: 22px;
+        }
+
+        .student-id {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 10px;
+        }
+
+        .student-body {
+            padding: 20px;
+        }
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(0, 191, 255, 0.1);
+            font-size: 14px;
+        }
+
+        .info-row:last-child {
+            border-bottom: none;
+        }
+
+        .info-label {
+            color: var(--text-light);
+            font-weight: 600;
+        }
+
+        .info-value {
+            color: var(--primary-color);
+            text-align: right;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-top: 10px;
+        }
+
+        .status-active {
+            background: rgba(76, 175, 80, 0.3);
+            color: #4caf50;
+            border: 1px solid #4caf50;
+        }
+
+        .status-graduated {
+            background: rgba(33, 150, 243, 0.3);
+            color: #2196f3;
+            border: 1px solid #2196f3;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .btn-small {
+            flex: 1;
+            padding: 8px 12px;
+            border: 1px solid var(--primary-color);
+            background: transparent;
+            color: var(--primary-color);
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+
+        .btn-small:hover {
+            background: var(--primary-color);
+            color: var(--bg-dark);
+        }
+
+        .stats-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 40px 0;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, rgba(13, 95, 127, 0.5), rgba(10, 74, 99, 0.5));
+            padding: 25px;
+            border-radius: var(--border-radius-lg);
+            border-left: 5px solid var(--primary-color);
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 36px;
+            color: var(--primary-color);
+            font-weight: 700;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: var(--text-light);
+            margin-top: 10px;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--text-light);
+        }
+
+        .no-results p {
+            font-size: 18px;
+            margin-bottom: 15px;
+        }
+
+        @media (max-width: 768px) {
+            .student-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .search-bar {
+                flex-direction: column;
+            }
+
+            .search-bar input,
+            .search-bar select {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <a href="gseke.html" class="home-btn">🏠 Home</a>
+
+    <header>
+        <h1>Saint Laurent de Gaseke</h1>
+        <p>Excellence in Technical and Vocational Education</p>
+        <button class="theme-toggle" onclick="toggleTheme()" title="Toggle light/dark mode">🌗</button>
+    </header>
+
+    <nav class="main-nav">
+        <a href="gseke.html">Home</a>
+        <a href="about2.html">About</a>
+        <a href="page2.html">Trades</a>
+        <a href="student-profiles.html">Students</a>
+        <a href="student-classes.html">Classes</a>
+        <a href="student-marks.html">Marks</a>
+        <a href="admissions.html">Admissions</a>
+        <a href="gallery.html">Gallery</a>
+        <a href="contact.html">Contact</a>
+        <a href="admin-dashboard.html">Admin</a>
+        <a href="PROJECTS.html">Projects</a>
+        <a href="https://mineduc.gov.rw" target="_blank">MINEDUC</a>
+    </nav>
+
+    <section>
+        <h2>Student Profiles</h2>
+        <p>Browse and manage student profiles across all programs</p>
+
+        <div class="stats-section">
+            <div class="stat-card">
+                <div class="stat-number" id="totalStudents">0</div>
+                <div class="stat-label">Total Students</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="activeStudents">0</div>
+                <div class="stat-label">Active Students</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="graduatedStudents">0</div>
+                <div class="stat-label">Graduated</div>
+            </div>
+        </div>
+
+        <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Search by name, ID, or email..." onkeyup="filterStudents()">
+            <select id="tradeFilter" onchange="filterStudents()">
+                <option value="">All Trades</option>
+                <option value="SOD">Software Development (SOD)</option>
+                <option value="ETE">Electrical Technology (ETE)</option>
+                <option value="BDC">Building Construction (BDC)</option>
+                <option value="ELT">Electronics & Telecom (ELT)</option>
+            </select>
+            <select id="statusFilter" onchange="filterStudents()">
+                <option value="">All Status</option>
+                <option value="Active">Active</option>
+                <option value="Graduated">Graduated</option>
+            </select>
+        </div>
+
+        <div class="student-grid" id="studentGrid">
+            <!-- Student cards will be populated here -->
+        </div>
+
+        <div id="noResults" class="no-results" style="display: none;">
+            <p>No students found matching your criteria.</p>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 Saint Laurent de Gaseke | Excellence in Technical Education</p>
+        <div class="footer-links">
+            <a href="admissions.html">Admissions</a>
+            <a href="contact.html">Contact</a>
+            <a href="page2.html">Programs</a>
+            <a href="https://mineduc.gov.rw">MINEDUC</a>
+        </div>
+    </footer>
+
+    <script>
+        // Sample student data
+        let students = JSON.parse(localStorage.getItem('schoolStudents')) || [];
+        // Convert to profiles format
+        students = students.map(s => ({
+            id: s.id,
+            name: `${s.firstName} ${s.lastName}`,
+            email: s.email,
+            phone: s.phone,
+            trade: s.trade,
+            year: parseInt(s.year),
+            enrollment: s.enrollment,
+            status: s.status,
+            gpa: parseFloat(s.gpa) || 3.5,
+            avatar: s.avatar || 'default-avatar.png',
+            notes: s.notes || ''
+        }));
+
+        // Auto-refresh when localStorage changes
+        window.addEventListener('storage', () => {
+            location.reload();
+        });
+
+        function updateStats() {
+            const total = students.length;
+            const active = students.filter(s => s.status === 'Active').length;
+            const graduated = students.filter(s => s.status === 'Graduated').length;
+
+            document.getElementById("totalStudents").textContent = total;
+            document.getElementById("activeStudents").textContent = active;
+            document.getElementById("graduatedStudents").textContent = graduated;
+        }
+
+        function displayStudents(studentsToShow = students) {
+            const grid = document.getElementById("studentGrid");
+            const noResults = document.getElementById("noResults");
+
+            if (studentsToShow.length === 0) {
+                grid.innerHTML = "";
+                noResults.style.display = "block";
+                return;
+            }
+
+            noResults.style.display = "none";
+            grid.innerHTML = studentsToShow.map(student => `
+                <div class="student-card">
+                    <div class="student-header">
+                        <img class="student-avatar" src="${student.avatar}" alt="${student.name}" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22100%22 height=%22100%22%3E%3Crect fill=%22%2300bfff%22 width=%22100%22 height=%22100%22/%3E%3Ctext x=%2250%22 y=%2250%22 text-anchor=%22middle%22 dy=%22.3em%22 font-size=%2240%22 fill=%22white%22%3E%3F%3C/text%3E%3C/svg%3E'">
+                        <h3>${student.name}</h3>
+                        <div class="student-id">ID: ${student.id}</div>
+                        <span class="status-badge ${student.status === 'Active' ? 'status-active' : 'status-graduated'}">
+                            ${student.status}
+                        </span>
+                    </div>
+                    <div class="student-body">
+                        <div class="info-row">
+                            <span class="info-label">Trade:</span>
+                            <span class="info-value">${student.trade}</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Year:</span>
+                            <span class="info-value">Year ${student.year}</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Email:</span>
+                            <span class="info-value">${student.email}</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Phone:</span>
+                            <span class="info-value">${student.phone}</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Enrolled:</span>
+                            <span class="info-value">${new Date(student.enrollment).toLocaleDateString()}</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">GPA:</span>
+                            <span class="info-value">${student.gpa.toFixed(2)}</span>
+                        </div>
+                        <div class="action-buttons">
+                            <button class="btn-small" onclick="viewProfile('${student.id}')">View</button>
+                            <button class="btn-small" onclick="viewMarks('${student.id}')">Marks</button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+            updateStats();
+        }
+
+        function filterStudents() {
+            const searchTerm = document.getElementById("searchInput").value.toLowerCase();
+            const trade = document.getElementById("tradeFilter").value;
+            const status = document.getElementById("statusFilter").value;
+
+            const filtered = students.filter(student => {
+                const matchesSearch = student.name.toLowerCase().includes(searchTerm) ||
+                                    student.id.toLowerCase().includes(searchTerm) ||
+                                    student.email.toLowerCase().includes(searchTerm);
+                const matchesTrade = !trade || student.trade === trade;
+                const matchesStatus = !status || student.status === status;
+                return matchesSearch && matchesTrade && matchesStatus;
+            });
+
+            displayStudents(filtered);
+        }
+
+        function viewProfile(studentId) {
+            alert(`Viewing detailed profile for student: ${studentId}`);
+            // In production, this would navigate to a detailed profile page
+        }
+
+        function viewMarks(studentId) {
+            window.location.href = `student-marks.html?id=${studentId}`;
+        }
+
+        // Initial display
+        displayStudents();
+        updateStats();
+    </script>
+
+<button class="back-to-top" onclick="scrollToTop()" title="Back to top">↑</button>
+<script src="theme.js"></script>
+</body>
+</html>

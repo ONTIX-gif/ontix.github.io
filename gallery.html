@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gallery - Saint Laurent de Gaseke</title>
+    <link rel="stylesheet" href="main.css">
+    <style>
+        .logo {
+            width: 20%;
+            max-width: 220px;
+            border-radius: 20px;
+            box-shadow: 0 12px 30px rgba(0,0,0,0.5);
+            border: 4px solid #00bfff;
+            margin: 20px 0;
+            transition: transform 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: translateY(-10px);
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: var(--border-radius-lg);
+            box-shadow: 0 10px 30px var(--shadow);
+            cursor: pointer;
+            transition: var(--transition);
+            height: 250px;
+            background: linear-gradient(135deg, #0d5f7f 0%, #0a4a63 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .gallery-item:hover {
+            transform: scale(1.05);
+            box-shadow: 0 20px 45px rgba(0, 191, 255, 0.4);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.1);
+            filter: brightness(1.1);
+        }
+
+        .gallery-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.9) 100%);
+            padding: 20px;
+            transform: translateY(100%);
+            transition: var(--transition);
+            color: white;
+        }
+
+        .gallery-item:hover .gallery-overlay {
+            transform: translateY(0);
+        }
+
+        .gallery-overlay h3 {
+            margin-bottom: 5px;
+            color: var(--primary-color);
+        }
+
+        .gallery-overlay p {
+            font-size: 13px;
+            opacity: 0.9;
+        }
+
+        .filter-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 10px 20px;
+            background: linear-gradient(135deg, transparent, transparent);
+            border: 2px solid var(--primary-color);
+            color: var(--primary-color);
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 600;
+        }
+
+        .filter-btn:hover, .filter-btn.active {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+            color: white;
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+    <a href="gseke.html" class="home-btn">🏠 Home</a>
+
+    <header>
+        <h1>Saint Laurent de Gaseke</h1>
+        <img src="saint laurent enhanced.png" alt="logo" class="logo">
+        <p>Excellence in Technical and Vocational Education</p>
+        <button class="theme-toggle" onclick="toggleTheme()" title="Toggle light/dark mode">🌗</button>
+    </header>
+
+    <nav class="main-nav">
+        <a href="gseke.html">Home</a>
+        <a href="about2.html">About</a>
+        <a href="page2.html">Trades</a>
+        <a href="admissions.html">Admissions</a>
+        <a href="gallery.html">Gallery</a>
+        <a href="contact.html">Contact</a>
+        <a href="PROJECTS.html">Projects</a>
+        <a href="https://mineduc.gov.rw" target="_blank">MINEDUC</a>
+        <div class="search-container">
+            <input type="text" class="search-input" placeholder="Search..." onkeyup="searchSite(this.value)">
+            <div class="search-results" id="searchResults"></div>
+        </div>
+    </nav>
+
+    <section>
+        <h2>Photo Gallery</h2>
+        <p>Explore our campus facilities, student activities, and ongoing projects</p>
+
+        <div class="filter-buttons">
+            <button class="filter-btn active" onclick="filterGallery('all')">All</button>
+            <button class="filter-btn" onclick="filterGallery('facilities')">Facilities</button>
+            <button class="filter-btn" onclick="filterGallery('students')">Students</button>
+            <button class="filter-btn" onclick="filterGallery('projects')">Projects</button>
+            <button class="filter-btn" onclick="filterGallery('events')">Events</button>
+        </div>
+
+        <div class="gallery-grid" id="gallery">
+            <!-- SOD Project -->
+            <div class="gallery-item projects" onclick="openModal(this, 'SOD Project', 'Software Development students creating innovative solutions')">
+                <img src="gaseke with comps.jpg" alt="SOD Project" style="width: 100%; height: 100%; object-fit: cover;">
+                <div class="gallery-overlay">
+                    <h3>Software Development</h3>
+                    <p>Creating innovative digital solutions</p>
+                </div>
+            </div>
+
+            <!-- ETE Work -->
+            <div class="gallery-item projects" onclick="openModal(this, 'Electrical Technology', 'ETE students working on electrical installations')">
+                <img src="ete on work.jpg" alt="ETE Work" style="width: 100%; height: 100%; object-fit: cover;">
+                <div class="gallery-overlay">
+                    <h3>Electrical Technology</h3>
+                    <p>Professional electrical work and installations</p>
+                </div>
+            </div>
+
+            <!-- ELT Work -->
+            <div class="gallery-item projects" onclick="openModal(this, 'Electronics & Telecom', 'ELT students installing communication systems')">
+                <img src="elt on work.jpg" alt="ELT Work" style="width: 100%; height: 100%; object-fit: cover;">
+                <div class="gallery-overlay">
+                    <h3>Electronics & Telecom</h3>
+                    <p>Communication and electronics installations</p>
+                </div>
+            </div>
+
+            <!-- BDC Project -->
+            <div class="gallery-item projects" onclick="openModal(this, 'Building Construction', 'BDC students constructing quality infrastructure')">
+                <img src="bdc on work.jpg" alt="BDC Project" style="width: 100%; height: 100%; object-fit: cover;">
+                <div class="gallery-overlay">
+                    <h3>Building Construction</h3>
+                    <p>Building quality infrastructure projects</p>
+                </div>
+            </div>
+
+            <!-- Campus Photo 1 -->
+            <div class="gallery-item facilities" onclick="openModal(this, 'Campus Facilities', 'Modern campus with state-of-the-art facilities')">
+                <img src="ontix.jpg" alt="Campus" style="width: 100%; height: 100%; object-fit: cover;">
+                <div class="gallery-overlay">
+                    <h3>Our Campus</h3>
+                    <p>Modern facilities for technical excellence</p>
+                </div>
+            </div>
+
+            <!-- Campus Photo 2 -->
+            <div class="gallery-item facilities" onclick="openModal(this, 'Campus Grounds', 'Beautiful and well-maintained campus grounds')">
+                <img src="ontix2.jpg" alt="Campus Grounds" style="width: 100%; height: 100%; object-fit: cover;">
+                <div class="gallery-overlay">
+                    <h3>Campus Grounds</h3>
+                    <p>Green and welcoming environment</p>
+                </div>
+            </div>
+
+            <!-- Campus Photo 3 -->
+            <div class="gallery-item facilities" onclick="openModal(this, 'Campus Infrastructure', 'Well-developed campus infrastructure')">
+                <img src="ontix3.png" alt="Campus Infrastructure" style="width: 100%; height: 100%; object-fit: cover;">
+                <div class="gallery-overlay">
+                    <h3>Infrastructure</h3>
+                    <p>Professional campus infrastructure</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 Saint Laurent de Gaseke | Excellence in Technical Education</p>
+        <div class="footer-links">
+            <a href="admissions.html">Admissions</a>
+            <a href="contact.html">Contact</a>
+            <a href="page2.html">Programs</a>
+            <a href="https://mineduc.gov.rw">MINEDUC</a>
+        </div>
+    </footer>
+
+    <script>
+        function filterGallery(category) {
+            const items = document.querySelectorAll('.gallery-item');
+            const buttons = document.querySelectorAll('.filter-btn');
+
+            buttons.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+
+            items.forEach(item => {
+                if (category === 'all' || item.classList.contains(category)) {
+                    item.style.display = 'block';
+                    setTimeout(() => item.style.opacity = '1', 10);
+                } else {
+                    item.style.opacity = '0';
+                    setTimeout(() => item.style.display = 'none', 300);
+                }
+            });
+        }
+
+        function openModal(element, title, description) {
+            const h3 = element.querySelector('.gallery-overlay h3').textContent;
+            const p = element.querySelector('.gallery-overlay p').textContent;
+            const modal = document.createElement('div');
+            modal.style.cssText = `
+                position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+                background: rgba(0,0,0,0.9); z-index: 1000; display: flex;
+                align-items: center; justify-content: center;
+            `;
+            modal.innerHTML = `
+                <div style="background: white; padding: 30px; border-radius: 10px; max-width: 600px; position: relative; color: #000;">
+                    <button onclick="this.parentElement.parentElement.remove()" style="position: absolute; top: 10px; right: 15px; border: none; font-size: 24px; cursor: pointer;">×</button>
+                    <h2>${h3}</h2>
+                    <p>${p}</p>
+                    <button onclick="this.parentElement.parentElement.remove()" style="background: #00bfff; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; margin-top: 15px;">Close</button>
+                </div>
+            `;
+            document.body.appendChild(modal);
+        }
+    </script>
+
+<button class="back-to-top" onclick="scrollToTop()" title="Back to top">↑</button>
+<script src="theme.js"></script>
+</body>
+</html>

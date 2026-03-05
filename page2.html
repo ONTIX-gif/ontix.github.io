@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Our Trades - Saint Laurent de Gaseke</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="main.css">
+    <link rel="stylesheet" href="page2.css">
+</head>
+<body>
+   
+<a href="gseke.html" class="home-btn">🏠 Home</a>
+
+<header>
+    <h1>Saint Laurent de Gaseke</h1>
+    <p>Excellence in Technical and Vocational Education</p>
+    <button class="theme-toggle" onclick="toggleTheme()" title="Toggle light/dark mode">🌗</button>
+</header>
+
+<nav class="main-nav">
+    <a href="gseke.html">Home</a>
+    <a href="about2.html">About</a>
+    <a href="page2.html">Trades</a>
+    <a href="admissions.html">Admissions</a>
+    <a href="gallery.html">Gallery</a>
+    <a href="contact.html">Contact</a>
+    <a href="PROJECTS.html">Projects</a>
+    <a href="https://mineduc.gov.rw" target="_blank">MINEDUC</a>
+</nav> 
+
+<!-- top hero banner matching homepage, logo constrained for good fit -->
+<div class="hero">
+    <h2>Welcome to Saint Laurent de Gaseke</h2>
+    <img src="saint laurent enhanced.png" alt="logo">
+</div>
+
+<section>
+    <h2>About Our School</h2>
+    <p>
+        Saint Laurent de Gaseke is a technical secondary school committed to 
+        providing quality education and practical professional skills to students.
+    </p>
+</section>
+
+<section>
+    <h2>Our Trades</h2>
+
+    <div class="trades">
+
+        <div class="card" data-detail="Learn to build apps, websites, and systems using modern languages and frameworks.">
+            <img src="gaseke with comps.jpg" alt="SOD">
+            <h3>SOD (Software Development)</h3>
+            <p>Programming, web development, and software creation.</p>
+            <a href="#" class="cta">Details</a>
+        </div>
+
+        <div class="card" data-detail="Hands-on training with circuits, power systems, and sustainable energy solutions.">
+            <img src="ete on work.jpg" alt="ETE">
+            <h3>ETE (Electronics and telecommunication)</h3>
+            <p>Electrical installation and maintenance systems.</p>
+            <a href="#" class="cta">Details</a>
+        </div>
+
+        <div class="card" data-detail="Gain practical experience in masonry, concrete work, and site management with real structures.">
+            <img src="bdc on work.jpg" alt="BDC">
+            <h3>BDC (Building Construction)</h3>
+            <p>Construction skills and building techniques.</p>
+            <a href="#" class="cta">Details</a>
+        </div>
+
+        <div class="card" data-detail="Design and troubleshoot electronic circuits and telecom networks used in modern devices.">
+            <img src="elt on work.jpg" alt="ELT">
+            <h3>ELT (Electricity and technology)</h3>
+            <p>Electronics systems and communication technology.</p>
+            <a href="#" class="cta">Details</a>
+        </div>
+
+    </div>
+</section>
+
+<footer>
+    <p>Contact: info@saintlaurentgaseke.com | +250 726 359 307</p>
+    <p>&copy; 2026 Saint Laurent de Gaseke</p>
+</footer>
+
+<script>
+document.querySelectorAll('.card .cta').forEach(btn=>{
+    btn.addEventListener('click', e=>{
+        e.preventDefault();
+        const card = e.target.closest('.card');
+        const detail = card.getAttribute('data-detail');
+        alert(detail);
+    });
+});
+</script>
+
+<button class="back-to-top" onclick="scrollToTop()" title="Back to top">↑</button>
+<script src="theme.js"></script>
+</body>
+</html>

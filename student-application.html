@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Student Application - Saint Laurent de Gaseke</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="main.css">
+</head>
+<body>
+    
+
+<header>
+    <h1>Saint Laurent de Gaseke</h1>
+    <p>Excellence in Technical and Vocational Education</p>
+    <!-- theme toggle -->
+    <button class="theme-toggle" onclick="toggleTheme()" title="Toggle light/dark mode">🌗</button>
+</header>
+
+<nav class="main-nav">
+    <a href="gseke.html">Home</a>
+    <a href="about2.html">About us</a>
+    <a href="page2.html">Technical Secondary Services</a>
+    <a href="announcements.html">News</a>
+    <a href="PROJECTS.html">Gallery/Projects</a>
+    <a href="contact.html">Contact us</a>
+    <a href="admin.html">Admin</a>
+    <a href="https://mineduc.gov.rw" target="_blank">Ministry of Education</a>
+    <div class="search-container">
+        <input type="text" class="search-input" placeholder="Search..." onkeyup="searchSite(this.value)">
+        <div class="search-results" id="searchResults"></div>
+    </div>
+</nav>
+
+<div class="hero">
+    <h2>Student Application</h2>
+    <p>Apply to join Saint Laurent de Gaseke Technical Secondary School</p>
+</div>
+
+<div class="section">
+    <h2>Application Form</h2>
+    <form class="application-form" action="#" method="post">
+        <div class="form-group">
+            <label for="fullName">Full Name *</label>
+            <input type="text" id="fullName" name="fullName" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="dateOfBirth">Date of Birth *</label>
+            <input type="date" id="dateOfBirth" name="dateOfBirth" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="gender">Gender *</label>
+            <select id="gender" name="gender" required>
+                <option value="">Select Gender</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+                <option value="other">Other</option>
+            </select>
+        </div>
+        
+        <div class="form-group">
+            <label for="address">Address *</label>
+            <textarea id="address" name="address" rows="3" required></textarea>
+        </div>
+        
+        <div class="form-group">
+            <label for="phone">Phone Number *</label>
+            <input type="tel" id="phone" name="phone" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="email">Email Address</label>
+            <input type="email" id="email" name="email">
+        </div>
+        
+        <div class="form-group">
+            <label for="previousSchool">Previous School *</label>
+            <input type="text" id="previousSchool" name="previousSchool" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="trade">Preferred Trade *</label>
+            <select id="trade" name="trade" required>
+                <option value="">Select Trade</option>
+                <option value="sod">Software Development (SOD)</option>
+                <option value="ete">Electrical Technology (ETE)</option>
+                <option value="bdc">Building Construction (BDC)</option>
+                <option value="elt">Electronics and Telecommunication (ELT)</option>
+            </select>
+        </div>
+        
+        <div class="form-group">
+            <label for="guardianName">Guardian/Parent Name *</label>
+            <input type="text" id="guardianName" name="guardianName" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="guardianPhone">Guardian/Parent Phone *</label>
+            <input type="tel" id="guardianPhone" name="guardianPhone" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="additionalInfo">Additional Information</label>
+            <textarea id="additionalInfo" name="additionalInfo" rows="4" placeholder="Any additional information you'd like to share..."></textarea>
+        </div>
+        
+        <button type="submit" class="cartoon-button submit-btn">Submit Application</button>
+    </form>
+</div>
+
+<footer>
+    <p>&copy; 2026 Saint Laurent de Gaseke | All Rights Reserved</p>
+</footer>
+
+<button class="back-to-top" onclick="scrollToTop()" title="Back to top">↑</button>
+<script src="theme.js"></script>
+<script>
+document.querySelector('.application-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const fullName = document.getElementById('fullName').value;
+    const email = document.getElementById('email').value;
+    const phone = document.getElementById('phone').value;
+    const trade = document.getElementById('trade').options[document.getElementById('trade').selectedIndex].text;
+    const dateOfBirth = document.getElementById('dateOfBirth').value;
+    const gender = document.getElementById('gender').value;
+    const address = document.getElementById('address').value;
+    const previousSchool = document.getElementById('previousSchool').value;
+    const guardianName = document.getElementById('guardianName').value;
+    const guardianPhone = document.getElementById('guardianPhone').value;
+    const additionalInfo = document.getElementById('additionalInfo').value;
+    
+    const applicationId = 'STU-' + Date.now();
+    const timestamp = new Date().toLocaleString();
+    
+    const application = {
+        id: applicationId,
+        type: 'student',
+        fullName,
+        email,
+        phone,
+        trade,
+        dateOfBirth,
+        gender,
+        address,
+        previousSchool,
+        guardianName,
+        guardianPhone,
+        additionalInfo,
+        status: 'pending',
+        submittedAt: timestamp
+    };
+    
+    let applications = JSON.parse(localStorage.getItem('applications') || '[]');
+    applications.push(application);
+    localStorage.setItem('applications', JSON.stringify(applications));
+    
+    alert(`✅ APPLICATION SUBMITTED SUCCESSFULLY!\n\nApplication ID: ${applicationId}\nName: ${fullName}\nEmail: ${email}\n\nYour application has been received. The admin will review it shortly and you will be notified via email with your status and credentials.\n\nThank you for applying to Saint Laurent de Gaseke!`);
+    
+    document.querySelector('.application-form').reset();
+});
+</script>
+</body>
+</html>

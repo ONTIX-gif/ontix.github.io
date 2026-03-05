@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Apply - Saint Laurent de Gaseke</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="main.css">
+</head>
+<body>
+    
+
+<header>
+    <h1>Saint Laurent de Gaseke</h1>
+    <p>Excellence in Technical and Vocational Education</p>
+    <!-- theme toggle -->
+    <button class="theme-toggle" onclick="toggleTheme()" title="Toggle light/dark mode">🌗</button>
+</header>
+
+<nav class="main-nav">
+    <a href="gseke.html">Home</a>
+    <a href="about2.html">About us</a>
+    <a href="page2.html">Technical Secondary Services</a>
+    <a href="announcements.html">News</a>
+    <a href="PROJECTS.html">Gallery/Projects</a>
+    <a href="contact.html">Contact us</a>
+    <a href="admin.html">Admin</a>
+    <a href="https://mineduc.gov.rw" target="_blank">Ministry of Education</a>
+    <div class="search-container">
+        <input type="text" class="search-input" placeholder="Search..." onkeyup="searchSite(this.value)">
+        <div class="search-results" id="searchResults"></div>
+    </div>
+</nav>
+
+<div class="hero">
+    <h2>Apply Now</h2>
+    <p>Choose your application type to get started</p>
+</div>
+
+<div class="section">
+    <h2>Select Application Type</h2>
+    <div class="application-choices">
+        <div class="choice-card">
+            <h3>🎓 Student Application</h3>
+            <p>Apply to join our technical secondary school programs and start your journey in vocational education.</p>
+            <a href="student-application.html" class="cartoon-button">Apply as Student</a>
+        </div>
+        
+        <div class="choice-card">
+            <h3>💼 Job Application</h3>
+            <p>Join our team! We have opportunities in teaching, kitchen staff, security, and other positions.</p>
+            <a href="job-application.html" class="cartoon-button">Apply for Job</a>
+        </div>
+    </div>
+</div>
+
+<footer>
+    <p>&copy; 2026 Saint Laurent de Gaseke | All Rights Reserved</p>
+</footer>
+
+<button class="back-to-top" onclick="scrollToTop()" title="Back to top">↑</button>
+<script src="theme.js"></script>
+</body>
+</html>

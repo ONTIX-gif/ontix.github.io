@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Marks - Admin Panel</title>
+    <link rel="stylesheet" href="main.css">
+    <style>
+        .logo {
+            width: 20%;
+            max-width: 220px;
+            border-radius: 20px;
+            box-shadow: 0 12px 30px rgba(0,0,0,0.5);
+            border: 4px solid #00bfff;
+            margin: 20px 0;
+            transition: transform 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: translateY(-10px);
+        }
+
+        .admin-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 30px 0;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .page-title h2 {
+            margin: 0;
+            color: var(--primary-color);
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary, .btn-secondary {
+            padding: 12px 25px;
+            border: none;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-weight: 600;
+            transition: var(--transition);
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+            color: white;
+            box-shadow: 0 4px 12px var(--shadow-glow);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 191, 255, 0.5);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            border: 2px solid var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        .btn-secondary:hover {
+            background: var(--primary-color);
+            color: var(--bg-dark);
+        }
+
+        .filter-section {
+            background: linear-gradient(135deg, rgba(13, 95, 127, 0.5), rgba(10, 74, 99, 0.5));
+            padding: 25px;
+            border-radius: var(--border-radius-lg);
+            margin: 30px 0;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            box-shadow: 0 10px 30px var(--shadow);
+        }
+
+        .filter-section input,
+        .filter-section select {
+            padding: 12px 15px;
+            border: 2px solid rgba(0, 191, 255, 0.3);
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border-radius: var(--border-radius);
+            font-family: inherit;
+            transition: var(--transition);
+        }
+
+        .filter-section input:focus,
+        .filter-section select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 15px rgba(0, 191, 255, 0.3);
+        }
+
+        .filter-section input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .filter-section select option {
+            background: var(--bg-dark);
+            color: white;
+        }
+
+        .table-container {
+            background: linear-gradient(135deg, rgba(13, 95, 127, 0.5), rgba(10, 74, 99, 0.5));
+            border-radius: var(--border-radius-lg);
+            overflow-x: auto;
+            box-shadow: 0 10px 30px var(--shadow);
+            margin: 30px 0;
+        }
+
+        .marks-table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 900px;
+        }
+
+        .marks-table thead {
+            background: linear-gradient(135deg, #1a7f9a 0%, #0f5a7a 100%);
+            position: sticky;
+            top: 0;
+        }
+
+        .marks-table th {
+            padding: 18px 12px;
+            text-align: left;
+            font-weight: 600;
+            color: white;
+            font-size: 14px;
+            border-bottom: 2px solid rgba(0, 191, 255, 0.2);
+        }
+
+        .marks-table td {
+            padding: 14px 12px;
+            border-bottom: 1px solid rgba(0, 191, 255, 0.1);
+            font-size: 14px;
+        }
+
+        .marks-table tbody tr:hover {
+            background: rgba(0, 191, 255, 0.05);
+        }
+
+        .marks-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .student-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .student-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+
+        .student-name {
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        .mark-input {
+            width: 60px;
+            padding: 8px;
+            border: 2px solid rgba(0, 191, 255, 0.3);
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border-radius: 4px;
+            text-align: center;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+
+        .mark-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 10px rgba(0, 191, 255, 0.3);
+        }
+
+        .grade-badge {
+            display: inline-block;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 13px;
+        }
+
+        .grade-a { background: rgba(76, 175, 80, 0.3); color: #4caf50; }
+        .grade-b { background: rgba(33, 150, 243, 0.3); color: #2196f3; }
+        .grade-c { background: rgba(255, 193, 7, 0.3); color: #ffc107; }
+        .grade-d { background: rgba(255, 152, 0, 0.3); color: #ff9800; }
+        .grade-f { background: rgba(244, 67, 54, 0.3); color: #f44336; }
+
+        .action-buttons-inline {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn-small {
+            padding: 6px 12px;
+            border: 1px solid var(--primary-color);
+            background: transparent;
+            color: var(--primary-color);
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+
+        .btn-small:hover {
+            background: var(--primary-color);
+            color: var(--bg-dark);
+        }
+
+        .class-section {
+            background: linear-gradient(135deg, rgba(13, 95, 127, 0.3), rgba(10, 74, 99, 0.3));
+            padding: 20px;
+            border-radius: var(--border-radius);
+            margin-bottom: 30px;
+            border-left: 5px solid var(--primary-color);
+        }
+
+        .class-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .class-info h3 {
+            margin: 0;
+            color: var(--primary-color);
+            font-size: 18px;
+        }
+
+        .class-info p {
+            margin: 5px 0;
+            font-size: 13px;
+            color: var(--text-light);
+        }
+
+        .validation-message {
+            padding: 12px 15px;
+            background: rgba(255, 193, 7, 0.2);
+            border-left: 4px solid #ffc107;
+            border-radius: 4px;
+            margin: 15px 0;
+            font-size: 13px;
+            color: #ffc107;
+        }
+
+        .success-message {
+            padding: 12px 15px;
+            background: rgba(76, 175, 80, 0.2);
+            border-left: 4px solid #4caf50;
+            border-radius: 4px;
+            margin: 15px 0;
+            font-size: 13px;
+            color: #4caf50;
+        }
+
+        .bulk-actions {
+            display: flex;
+            gap: 15px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+
+        .bulk-actions button {
+            padding: 10px 20px;
+            background: linear-gradient(135deg, rgba(0, 191, 255, 0.2), rgba(0, 156, 204, 0.2));
+            border: 1px solid var(--primary-color);
+            color: var(--primary-color);
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+
+        .bulk-actions button:hover {
+            background: var(--primary-color);
+            color: var(--bg-dark);
+        }
+
+        @media (max-width: 768px) {
+            .page-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .action-buttons {
+                width: 100%;
+            }
+
+            .action-buttons button {
+                flex: 1;
+            }
+
+            .filter-section {
+                grid-template-columns: 1fr;
+            }
+
+            .class-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .marks-table {
+                min-width: 100%;
+            }
+
+            .bulk-actions {
+                flex-direction: column;
+            }
+
+            .bulk-actions button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <a href="admin-dashboard.html" class="home-btn">← Back to Dashboard</a>
+
+    <header>
+        <h1>Manage Marks & Grades - Admin Panel</h1>
+        <img src="saint laurent enhanced.png" alt="logo" class="logo">
+        <p>Input, Update, and Verify Student Marks</p>
+        <button class="theme-toggle" onclick="toggleTheme()" title="Toggle light/dark mode">🌗</button>
+    </header>
+
+    <div class="admin-container">
+        <!-- Page Header -->
+        <div class="page-header">
+            <div class="page-title">
+                <h2>📝 Grade Management</h2>
+            </div>
+            <div class="action-buttons">
+                <button class="btn-primary" onclick="importMarks()">📤 Import Marks</button>
+                <button class="btn-secondary" onclick="exportMarks()">📥 Export Grades</button>
+            </div>
+        </div>
+
+        <!-- Filter Section -->
+        <div class="filter-section">
+            <select id="classFilter" onchange="filterByClass()">
+                <option value="">All Classes</option>
+                <option value="SOD-Y1-A">Web Development Basics</option>
+                <option value="SOD-Y2-B">Database Management</option>
+                <option value="SOD-Y3-A">Advanced Project Work</option>
+                <option value="ETE-Y1-A">Electrical Fundamentals</option>
+                <option value="ETE-Y2-B">Power Systems</option>
+            </select>
+            <select id="semesterFilter" onchange="filterByClass()">
+                <option value="">All Semesters</option>
+                <option value="Semester 1">Semester 1 2025-2026</option>
+                <option value="Semester 2">Semester 2 2025-2026</option>
+            </select>
+            <select id="courseFilter" onchange="filterByClass()">
+                <option value="">Select Course/Subject</option>
+                <option value="Web Development">Web Development</option>
+                <option value="Database Management">Database Management</option>
+                <option value="Project Management">Project Management</option>
+            </select>
+            <button class="btn-secondary" onclick="resetMarksFilters()" style="width: 100%;">🔄 Reset</button>
+        </div>
+
+        <!-- Class 1: SOD Year 1 -->
+        <div class="class-section">
+            <div class="class-header">
+                <div class="class-info">
+                    <h3>📚 SOD-Y1-A: Web Development Basics</h3>
+                    <p>Instructor: Eng. Michel Muzire | 35 Students | Semester 1 2025-2026</p>
+                </div>
+                <div class="bulk-actions">
+                    <button onclick="publishMarks('SOD-Y1-A')">📤 Publish Marks</button>
+                    <button onclick="lockMarks('SOD-Y1-A')">🔒 Lock Entries</button>
+                </div>
+            </div>
+
+            <div class="validation-message">
+                ⚠️ 2 students pending data entry • 1 missing test score • Validation: 33/35 complete
+            </div>
+
+            <div class="table-container">
+                <table class="marks-table">
+                    <thead>
+                        <tr>
+                            <th>Student Name</th>
+                            <th>ID</th>
+                            <th>Assessment 1</th>
+                            <th>Assessment 2</th>
+                            <th>Exam</th>
+                            <th>Total %</th>
+                            <th>Grade</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><div class="student-info"><div class="student-avatar">👨‍💻</div><span class="student-name">Jean-Paul Nkusi</span></div></td>
+                            <td>SLG001</td>
+                            <td><input type="number" class="mark-input" value="85" min="0" max="100"></td>
+                            <td><input type="number" class="mark-input" value="88" min="0" max="100"></td>
+                            <td><input type="number" class="mark-input" value="92" min="0" max="100"></td>
+                            <td colspan="2"><strong style="color: var(--primary-color);">88%</strong> <div class="grade-badge grade-a">A</div></td>
+                            <td><span style="color: #4caf50;">✓ OK</span></td>
+                            <td><div class="action-buttons-inline"><button class="btn-small" onclick="editMark()">Edit</button><button class="btn-small" onclick="deleteMark()">Del</button></div></td>
+                        </tr>
+                        <tr>
+                            <td><div class="student-info"><div class="student-avatar">👩‍💻</div><span class="student-name">Marie Uwimana</span></div></td>
+                            <td>SLG002</td>
+                            <td><input type="number" class="mark-input" value="80" min="0" max="100"></td>
+                            <td><input type="number" class="mark-input" value="82" min="0" max="100"></td>
+                            <td><input type="number" class="mark-input" value="85" min="0" max="100"></td>
+                            <td colspan="2"><strong style="color: var(--primary-color);">82%</strong> <div class="grade-badge grade-b">B</div></td>
+                            <td><span style="color: #4caf50;">✓ OK</span></td>
+                            <td><div class="action-buttons-inline"><button class="btn-small" onclick="editMark()">Edit</button><button class="btn-small" onclick="deleteMark()">Del</button></div></td>
+                        </tr>
+                        <tr>
+                            <td><div class="student-info"><div class="student-avatar">🧑‍💻</div><span class="student-name">Pierre Karangwa</span></div></td>
+                            <td>SLG003</td>
+                            <td><input type="number" class="mark-input" value="90" min="0" max="100"></td>
+                            <td><input type="number" class="mark-input" value="91" min="0" max="100"></td>
+                            <td><input type="number" class="mark-input" value="89" min="0" max="100"></td>
+                            <td colspan="2"><strong style="color: var(--primary-color);">90%</strong> <div class="grade-badge grade-a">A</div></td>
+                            <td><span style="color: #4caf50;">✓ OK</span></td>
+                            <td><div class="action-buttons-inline"><button class="btn-small" onclick="editMark()">Edit</button><button class="btn-small" onclick="deleteMark()">Del</button></div></td>
+                        </tr>
+                        <tr>
+                            <td><div class="student-info"><div class="student-avatar">👩‍💼</div><span class="student-name">Alice Kubwimana</span></div></td>
+                            <td>SLG004</td>
+                            <td><input type="number" class="mark-input" placeholder="?" min="0" max="100"></td>
+                            <td><input type="number" class="mark-input" value="90" min="0" max="100"></td>
+                            <td><input type="number" class="mark-input" value="91" min="0" max="100"></td>
+                            <td colspan="2"><span style="color: #ff9800;">Incomplete</span></td>
+                            <td><span style="color: #ff9800;">⚠️ Pending</span></td>
+                            <td><div class="action-buttons-inline"><button class="btn-small" onclick="editMark()">Edit</button><button class="btn-small" onclick="deleteMark()">Del</button></div></td>
+                        </tr>
+                        <tr>
+                            <td><div class="student-info"><div class="student-avatar">🧑‍💻</div><span class="student-name">Emmanuel Habimana</span></div></td>
+                            <td>SLG005</td>
+                            <td><input type="number" class="mark-input" value="78" min="0" max="100"></td>
+                            <td><input type="number" class="mark-input" value="80" min="0" max="100"></td>
+                            <td><input type="number" class="mark-input" value="83" min="0" max="100"></td>
+                            <td colspan="2"><strong style="color: var(--primary-color);">80%</strong> <div class="grade-badge grade-b">B</div></td>
+                            <td><span style="color: #4caf50;">✓ OK</span></td>
+                            <td><div class="action-buttons-inline"><button class="btn-small" onclick="editMark()">Edit</button><button class="btn-small" onclick="deleteMark()">Del</button></div></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="bulk-actions" style="margin-top: 20px;">
+                <button onclick="saveClassMarks('SOD-Y1-A')">💾 Save All Changes</button>
+                <button onclick="calculateGrades('SOD-Y1-A')">🧮 Auto-Calculate Grades</button>
+            </div>
+        </div>
+
+        <!-- Class 2: SOD Year 2 -->
+        <div class="class-section">
+            <div class="class-header">
+                <div class="class-info">
+                    <h3>📚 SOD-Y2-B: Database Management</h3>
+                    <p>Instructor: Mr. Nishimwe | 32 Students | Semester 1 2025-2026</p>
+                </div>
+                <div class="bulk-actions">
+                    <button onclick="publishMarks('SOD-Y2-B')">📤 Publish Marks</button>
+                    <button onclick="lockMarks('SOD-Y2-B')">🔒 Lock Entries</button>
+                </div>
+            </div>
+
+            <div class="success-message">
+                ✓ All marks entered and verified • Ready for publishing
+            </div>
+
+            <button class="btn-primary" onclick="viewClassMarks('SOD-Y2-B')" style="margin-bottom: 15px;">📊 View Full Class Marks</button>
+        </div>
+    </div>
+
+    <script>
+        function filterByClass() {
+            const classFilter = document.getElementById('classFilter').value;
+            const semester = document.getElementById('semesterFilter').value;
+            const course = document.getElementById('courseFilter').value;
+            alert(`Filtering: ${classFilter || 'All'} | ${semester || 'All'} | ${course || 'All'}`);
+        }
+
+        function resetMarksFilters() {
+            document.getElementById('classFilter').value = '';
+            document.getElementById('semesterFilter').value = '';
+            document.getElementById('courseFilter').value = '';
+        }
+
+        function editMark() {
+            alert('Click on mark input field to edit');
+        }
+
+        function deleteMark() {
+            if (confirm('Delete this mark entry?')) {
+                alert('Mark deleted');
+            }
+        }
+
+        function publishMarks(classCode) {
+            if (confirm(`Publish marks for class ${classCode}? This will notify students.`)) {
+                alert(`Marks published for ${classCode}`);
+            }
+        }
+
+        function lockMarks(classCode) {
+            alert(`Locking marks for ${classCode}. No further edits allowed.`);
+        }
+
+        function saveClassMarks(classCode) {
+            alert(`All changes for ${classCode} saved successfully!`);
+        }
+
+        function calculateGrades(classCode) {
+            alert(`Auto-calculating grades for ${classCode} based on assessment formula...`);
+        }
+
+        function importMarks() {
+            alert('Import feature: Upload CSV/Excel file with marks data');
+        }
+
+        function exportMarks() {
+            alert('Exporting all marks as Excel file...systemmarksExport_2026-03-03.xlsx');
+        }
+
+        function viewClassMarks(classCode) {
+            alert(`Viewing detailed marks for class ${classCode}`);
+        }
+    </script>
+
+<button class="back-to-top" onclick="scrollToTop()" title="Back to top">↑</button>
+<script src="theme.js"></script>
+</body>
+</html>

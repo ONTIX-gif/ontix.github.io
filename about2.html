@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>About Us - Saint Laurent de Gaseke</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="main.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #001f3f 0%, #003366 50%, #004080 100%);
+            color: white;
+            text-align: center;
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            /* leave room for sidebar */
+            padding-left: 220px;
+        }
+
+        .home-btn {
+            display: inline-block;
+            align-self: flex-start;
+            margin: 15px 20px;
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #00bfff 0%, #0099cc 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 10px;
+            font-weight: 600;
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            box-shadow: 0 6px 20px rgba(0, 191, 255, 0.3);
+            font-size: 16px;
+            letter-spacing: 1px;
+        }
+
+        .home-btn:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 10px 30px rgba(0, 191, 255, 0.6);
+            background: linear-gradient(135deg, #00e6ff 0%, #00b3e6 100%);
+        }
+
+        h2, h3 {
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        p {
+            opacity: 0.95;
+            font-size: 16px;
+        }
+
+        header {
+            padding: 60px 20px 40px;
+            background: linear-gradient(135deg, rgba(0,31,63,0.9), rgba(0,64,128,0.9));
+            border-bottom: 3px solid #00bfff;
+        }
+
+        /* navigation styling */
+        .main-nav {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            padding: 10px 0;
+            background: rgba(0,0,0,0.12);
+            width: 100%;
+            position: sticky;
+            top: 0;
+            z-index: 500;
+        }
+        .main-nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            letter-spacing: 1px;
+            padding: 6px 10px;
+            transition: color .3s, background .3s;
+        }
+        .main-nav a:hover {
+            color: var(--accent);
+            background: rgba(0,191,255,0.18);
+            border-radius: 5px;
+        }
+
+        header h1 {
+            font-size: 48px;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            letter-spacing: 1px;
+        }
+
+        header p {
+            font-size: 20px;
+            opacity: 0.9;
+            font-weight: 300;
+            letter-spacing: 2px;
+        }
+
+        .logo {
+            width: 20%;
+            max-width: 220px;
+            border-radius: 20px;
+            box-shadow: 0 12px 30px rgba(0,0,0,0.5);
+            border: 4px solid #00bfff;
+            margin: 20px 0;
+            transition: transform 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: translateY(-10px);
+        }
+
+        section {
+            padding: 50px 20px;
+            flex-grow: 1;
+        }
+
+        section h2 {
+            font-size: 38px;
+            margin-bottom: 20px;
+            color: #00bfff;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+        }
+
+        .school-image {
+            width: 20%;
+            max-width: 220px;
+            border-radius: 20px;
+            box-shadow: 0 12px 30px rgba(0,0,0,0.5);
+            border: 4px solid #00bfff;
+            margin-bottom: 30px;
+            transition: transform 0.3s ease;
+        }
+
+        .school-image:hover {
+            transform: translateY(-10px);
+        }
+
+        .trades {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .card {
+            background: linear-gradient(135deg, #ffffff 0%, #f0f8ff 100%);
+            color: #001f3f;
+            width: 300px;
+            padding: 30px 20px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            border: 2px solid transparent;
+        }
+
+        .card:hover {
+            transform: translateY(-15px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(0,191,255,0.4);
+            border-color: #00bfff;
+        }
+
+        .card h3 {
+            color: #003366;
+            font-size: 22px;
+            margin: 15px 0 10px;
+        }
+
+        .card p {
+            color: #666;
+            font-size: 15px;
+        }
+
+        .card img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            border-radius: 15px;
+            margin-bottom: 15px;
+        }
+
+        .developers {
+            background: linear-gradient(135deg, rgba(0,191,255,0.1) 0%, rgba(0,100,200,0.1) 100%);
+            padding: 60px 20px;
+            border-top: 2px solid #00bfff;
+            border-bottom: 2px solid #00bfff;
+        }
+
+        .developers h2 {
+            margin-bottom: 10px;
+        }
+
+        .developers > p {
+            font-size: 18px;
+            margin-bottom: 40px;
+            opacity: 0.9;
+        }
+
+        .dev-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .dev-card {
+            background: linear-gradient(135deg, #1a4d6d 0%, #0d2d42 100%);
+            color: white;
+            width: 280px;
+            padding: 30px 25px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            border: 2px solid transparent;
+        }
+
+        .dev-card:hover {
+            transform: translateY(-15px) scale(1.02);
+            box-shadow: 0 20px 45px rgba(0,191,255,0.3);
+            border-color: #00bfff;
+            background: linear-gradient(135deg, #226689 0%, #174860 100%);
+        }
+
+        .dev-card h3 {
+            font-size: 24px;
+            margin-bottom: 8px;
+            color: #00bfff;
+        }
+
+        .dev-card p {
+            color: #b0d4e8;
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .dev-card img {
+            width: 130px;
+            height: 130px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 15px;
+            border: 4px solid #00bfff;
+            box-shadow: 0 6px 20px rgba(0,191,255,0.3);
+            transition: transform 0.3s ease;
+        }
+
+        .dev-card:hover img {
+            transform: scale(1.1);
+        }
+
+        footer {
+            background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
+            padding: 35px 20px;
+            margin-top: auto;
+            border-top: 3px solid #00bfff;
+        }
+
+        footer p {
+            margin: 8px 0;
+            font-size: 15px;
+            opacity: 0.85;
+        }
+
+        @media (max-width: 768px) {
+            /* collapse sidebar on narrow screens */
+            body {
+                padding-left: 0;
+            }
+            .sidebar {
+                position: relative;
+                width: 100%;
+                top: auto;
+                left: auto;
+                padding: 10px;
+                flex-direction: row;
+                justify-content: center;
+                gap: 10px;
+            }
+
+            header h1 {
+                font-size: 36px;
+            }
+
+            section {
+                padding: 35px 15px;
+            }
+
+            section h2 {
+                font-size: 28px;
+            }
+
+            .card, .dev-card {
+                width: 100%;
+                max-width: 350px;
+            }
+        }
+    </style>
+
+</head>
+
+<body>
+
+<a href="gseke.html" class="home-btn">🏠 Home</a>
+
+<nav class="main-nav">
+    <a href="gseke.html">Home</a>
+    <a href="about2.html">About</a>
+    <a href="page2.html">Trades</a>
+    <a href="admissions.html">Admissions</a>
+    <a href="gallery.html">Gallery</a>
+    <a href="contact.html">Contact</a>
+    <a href="PROJECTS.html">Projects</a>
+    <a href="https://mineduc.gov.rw" target="_blank">MINEDUC</a>
+    <div class="search-container">
+        <input type="text" class="search-input" placeholder="Search..." onkeyup="searchSite(this.value)">
+        <div class="search-results" id="searchResults"></div>
+    </div>
+</nav>
+
+<header>
+    <h1>Saint Laurent de Gaseke</h1>
+    <img src="saint laurent enhanced.png" alt="logo" class="logo">
+    <p>Empowering Future Innovators</p>
+    <button class="theme-toggle" onclick="toggleTheme()" title="Toggle light/dark mode">🌗</button>
+</header>
+
+<section>
+    <img src="saint laurent enhanced.png" class="school-image" alt="School Image">
+    <h2>Welcome to Our School</h2>
+    <p>
+        A leading technical secondary school offering high-quality vocational 
+        and technology-based education.
+    </p>
+</section>
+
+<section>
+  
+
+<section class="developers">
+    <h2>Website Developers</h2>
+    <p>Designed and Developed by Talented Students</p>
+
+    <div class="dev-container">
+
+        <div class="dev-card">
+            <img src="ontix.jpg" alt="Developer">
+            <h3>Ontix</h3>
+            <p>Lead Developer</p>
+        </div>
+
+        <div class="dev-card">
+            <img src="ontixxxxxxx.png" alt="Developer">
+            <h3>Team Member</h3>
+            <p>Frontend Designer</p>
+        </div>
+
+        <div class="dev-card">
+            <img src="ontix2.jpg" alt="Developer">
+            <h3>Team Member</h3>
+            <p>Backend Developer</p>
+        </div>
+
+    </div>
+</section>
+
+<footer>
+    <p>&copy; 2026 Saint Laurent de Gaseke</p>
+    <p>Developed with Passion and Innovation</p>
+</footer>
+
+<button class="back-to-top" onclick="scrollToTop()" title="Back to top">↑</button>
+<script src="theme.js"></script>
+</body>
+</html>
